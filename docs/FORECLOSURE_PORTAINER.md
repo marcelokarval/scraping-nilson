@@ -11,10 +11,38 @@ Este guia configura **apenas o scraper de Foreclosure** (Landmark Auction) com e
 2. Copie a URL única gerada (ex: `https://webhook.site/#!/abc123def`)
 3. **OU** use sua própria URL de webhook em produção
 
-### 2️⃣ Criar Stack no Portainer
+### 2️⃣ Escolher Método de Deploy
+
+**🔧 Opção A: Build Automático (Recomendado)**
+- Use: `portainer-foreclosure-autobuild.yml`
+- Builda direto do GitHub
+- Mais lento no primeiro deploy, mais confiável
+
+**🔧 Opção B: Build Manual no Servidor**
+```bash
+# No servidor do Portainer:
+git clone https://github.com/marcelokarval/scraping-nilson.git
+cd scraping-nilson
+git checkout gemini/massachusetts-system-2
+docker build -t massachusetts-scraper:v1.0.0 .
+```
+- Use: `portainer-foreclosure-stack.yml`
+- Mais rápido, mas precisa buildar manualmente
+
+**🔧 Opção C: Versão Simples**
+```bash
+# No servidor, clone o projeto:
+git clone https://github.com/marcelokarval/scraping-nilson.git /opt/scraping-nilson
+cd /opt/scraping-nilson
+git checkout gemini/massachusetts-system-2
+```
+- Use: `portainer-foreclosure-simple.yml`
+- Usa Node base, instala dependências na execução
+
+### 3️⃣ Criar Stack no Portainer
 1. **Portainer** → **Stacks** → **Add stack**
 2. **Nome**: `massachusetts-foreclosure`
-3. **Web editor**: Cole o conteúdo do arquivo `portainer-foreclosure-stack.yml`
+3. **Web editor**: Cole o conteúdo do arquivo escolhido acima
 
 ### 3️⃣ Configurar Variáveis de Ambiente
 

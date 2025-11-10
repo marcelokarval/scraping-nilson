@@ -1,14 +1,16 @@
 version: '3.8'
 
-# Massachusetts Scraper - Foreclosure Only (Portainer Stack)
-# Configuração otimizada para Runner 5 (Landmark Auction)
+# Massachusetts Scraper - Foreclosure Only (Build Automático)
+# Stack que builda a imagem direto do GitHub
 
 services:
   massachusetts-foreclosure:
     build:
       context: https://github.com/marcelokarval/scraping-nilson.git#gemini/massachusetts-system-2
       dockerfile: Dockerfile
-    image: massachusetts-scraper:v1.0.0
+      args:
+        - NODE_ENV=production
+    image: massachusetts-scraper:latest
     container_name: ma-foreclosure-scraper
     hostname: ma-foreclosure-prod
     

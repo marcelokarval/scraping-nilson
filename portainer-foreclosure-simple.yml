@@ -1,0 +1,60 @@
+version: '3.8'
+
+# Massachusetts Scraper - Versão Simplificada
+# Usa imagem Node base e instala dependências na hora
+
+services:
+  massachusetts-foreclosure-simple:
+    image: node:18-slim
+    container_name: ma-foreclosure-simple
+    working_dir: /app
+    
+    environment:
+      # Configurações do Scheduler - Runner 5 (Foreclosure)
+      - RUNNER_MODE=${RUNNER_MODE:-5}
+      - SCHEDULE_HOUR=${SCHEDULE_HOUR:-6}
+      
+      # Configurações de Scraping
+      - DAYS_BACK=${DAYS_BACK:-7}
+      - PLAYWRIGHT_HEADLESS=${PLAYWRIGHT_HEADLESS:-true}
+      
+      # Configurações de Webhook
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - SEND_WEBHOOK=${SEND_WEBHOOK:-true}
+      
+      # Configurações de Enriquecimento
+      - ENABLE_ENRICHMENT=${ENABLE_ENRICHMENT:-true}
+      - FORCE_REENRICHMENT=${FORCE_REENRICHMENT:-false}
+      
+      # Configurações de Ambiente
+      - NODE_ENV=${NODE_ENV:-production}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      
+    volumes:
+      # Código fonte (clone manual necessário)
+      - /opt/scraping-nilson:/app
+      # Dados persistentes
+      - ma_foreclosure_data:/app/data
+      - ma_foreclosure_logs:/app/logs
+      - ma_foreclosure_browser:/app/playwright_user_data
+      
+    restart: unless-stopped
+    
+    # Comando para instalar dependências e executar
+    command: >
+      bash -c "
+        apt-get update && 
+        apt-get install -y git curl wget gnupg && 
+        npm install && 
+        npx playwright install chromium --with-deps && 
+        npx ts-node runners/MA/main.ts
+      "
+    
+    # Labels para organização
+    labels:
+      - "com.massachusetts.scraper=foreclosure-simple"
+
+volumes:
+  ma_foreclosure_data:
+  ma_foreclosure_logs:
+  ma_foreclosure_browser:
