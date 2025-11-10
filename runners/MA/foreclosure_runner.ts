@@ -507,7 +507,23 @@ export class ForeclosureRunner {
 
   private async sendListingsToWebhook(listings: ForeclosureListing[]): Promise<void> {
     for (const [index, listing] of listings.entries()) {
-      await this.sendIndividualWebhook(listing, index + 1, listings.length);
+      // Verificar se é caso novo ou existente
+      const address = listing.property_address || 'UNKNOWN';
+      const normalized = processedStore.normalizeKey(address);
+      const wasProcessed = await processedStore.isProcessed(normalized);
+      
+      // Aplicar mesma regra: casos novos SÓ são enviados se enriquecidos
+      const shouldSend = this.shouldSendWebhook(listing, listing, wasProcessed);
+      
+      if (shouldSend) {
+        await this.sendIndividualWebhook(listing, index + 1, listings.length);
+      } else {
+        logger.info({ 
+          address, 
+          isNew: !wasProcessed,
+          reason: 'novo_sem_enrichment'
+        }, 'Webhook não enviado - caso novo sem enriquecimento');
+      }
     }
   }
 
@@ -611,9 +627,19 @@ export class ForeclosureRunner {
         
         enriched.push(enrichedListing);
         
-        // Send webhook for all cases (new or update)
+        // Send webhook based on case type and enrichment status
         if (this.runOptions.sendWebhook) {
-          await this.sendIndividualWebhook(enrichedListing, index + 1, listings.length);
+          const shouldSendWebhook = this.shouldSendWebhook(listing, enrichedListing, wasProcessed);
+          
+          if (shouldSendWebhook) {
+            await this.sendIndividualWebhook(enrichedListing, index + 1, listings.length);
+          } else {
+            logger.info({ 
+              address, 
+              isNew: !wasProcessed, 
+              hasEnrichment: !!enrichedListing.massproperty 
+            }, 'Webhook NÃO enviado - caso novo sem enriquecimento');
+          }
         }
         
         // Delay between requests using page
@@ -624,9 +650,19 @@ export class ForeclosureRunner {
         logger.warn({ error, address: listing.property_address }, 'Falha ao enriquecer listing');
         enriched.push(listing); // Keep original if enrichment fails
         
-        // Still try to send webhook even if enrichment failed
+        // Do NOT send webhook for failed enrichment of new cases
         if (this.runOptions.sendWebhook) {
-          await this.sendIndividualWebhook(listing, index + 1, listings.length);
+          const normalized = processedStore.normalizeKey(listing.property_address || 'UNKNOWN');
+          const wasProcessed = await processedStore.isProcessed(normalized);
+          
+          if (wasProcessed) {
+            // For existing cases, send even if enrichment failed (as update)
+            logger.info({ address: listing.property_address }, 'Enviando webhook para caso existente mesmo com falha no enriquecimento');
+            await this.sendIndividualWebhook(listing, index + 1, listings.length);
+          } else {
+            // For new cases, do NOT send if enrichment failed
+            logger.warn({ address: listing.property_address }, 'NÃO enviando webhook - caso NOVO com falha no enriquecimento');
+          }
         }
       }
     }
@@ -1017,7 +1053,22 @@ export class ForeclosureRunner {
     const webhookUrl = this.runOptions.webhookUrl || process.env.WEBHOOK_URL || 'https://n8n.arthuragrelli.com/webhook/scraping';
 
     for (const [index, listing] of listings.entries()) {
-      await this.sendIndividualWebhook(listing, index + 1, listings.length);
+      // Esta função só é chamada para listings enriquecidos, mas validar mesmo assim
+      const address = listing.property_address || 'UNKNOWN';
+      const normalized = processedStore.normalizeKey(address);
+      const wasProcessed = await processedStore.isProcessed(normalized);
+      
+      const shouldSend = this.shouldSendWebhook(listing, listing, wasProcessed);
+      
+      if (shouldSend) {
+        await this.sendIndividualWebhook(listing, index + 1, listings.length);
+      } else {
+        logger.warn({ 
+          address, 
+          isNew: !wasProcessed,
+          reason: 'enriched_but_failed_validation'
+        }, 'Webhook não enviado mesmo sendo enriquecido - possível falha na validação');
+      }
     }
   }
 
@@ -1047,17 +1098,22 @@ export class ForeclosureRunner {
       const existingData = processedStore.data[normalized];
       const lastHash = existingData?.source || ''; // Usando 'source' para armazenar hash
       
-      let sendType: 'new' | 'update' = 'new';
+      let sendType: 'new' | 'update';
       
       if (wasProcessed) {
         if (lastHash === contentHash) {
-          // No changes, but still send as update
+          // No changes, send as update
           sendType = 'update';
           logger.debug({ address }, 'Listing sem mudanças, enviando como update');
         } else {
           // Content changed, send update
           sendType = 'update';
+          logger.debug({ address }, 'Listing com mudanças, enviando como update');
         }
+      } else {
+        // Truly new case
+        sendType = 'new';
+        logger.debug({ address }, 'Listing novo, enviando como new');
       }
       
       const payload = this.buildStandardWebhookPayload(listing, sendType);
@@ -1209,5 +1265,46 @@ export class ForeclosureRunner {
         enricher: 'foreclosure_runner.ts',
       },
     };
+  }
+
+  /**
+   * Determina se deve enviar webhook baseado no tipo de caso e status do enriquecimento
+   * REGRA: Casos novos SÓ são enviados se foram enriquecidos com sucesso
+   */
+  private shouldSendWebhook(originalListing: ForeclosureListing, enrichedListing: ForeclosureListing, wasProcessed: boolean): boolean {
+    const address = originalListing.property_address || 'UNKNOWN';
+    
+    // Se é um caso já processado (existente), sempre enviar como update
+    if (wasProcessed) {
+      logger.debug({ address, wasProcessed: true }, 'Caso existente - enviando webhook como update');
+      return true;
+    }
+    
+    // Se é um caso novo, só enviar se tem dados de enriquecimento
+    const hasEnrichment = enrichedListing.massproperty && (
+      enrichedListing.massproperty.owner ||
+      enrichedListing.massproperty.total_value ||
+      enrichedListing.massproperty.assessed_value
+    );
+    
+    if (!hasEnrichment) {
+      logger.warn({ 
+        address,
+        isNew: true,
+        hasMainProperty: !!enrichedListing.massproperty,
+        hasOwner: !!(enrichedListing.massproperty?.owner),
+        hasTotalValue: !!(enrichedListing.massproperty?.total_value),
+        hasAssessedValue: !!(enrichedListing.massproperty?.assessed_value),
+        reason: 'missing_enrichment_data'
+      }, '🚫 Caso NOVO sem dados de enriquecimento - webhook NÃO será enviado');
+      return false;
+    }
+    
+    logger.info({ 
+      address,
+      isNew: true,
+      hasEnrichment: true 
+    }, '✅ Caso NOVO com enriquecimento - enviando webhook');
+    return true;
   }
 }
