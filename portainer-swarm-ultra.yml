@@ -145,11 +145,13 @@ services:
         sleep 2
         
         echo '🔍 Verificando status dos dados processados...'
-        echo "Arquivo de casos processados:"
-        ls -la /app/data/MA/foreclosure_processed_cases.json 2>/dev/null || echo "❌ Arquivo não existe - todos serão novos casos"
+        echo "Status do arquivo de casos processados:"
         if [ -f "/app/data/MA/foreclosure_processed_cases.json" ]; then
-          CASE_COUNT=$(cat /app/data/MA/foreclosure_processed_cases.json | grep -o '"processed_at"' | wc -l)
-          echo "✅ $CASE_COUNT casos já processados encontrados"
+          ls -la /app/data/MA/foreclosure_processed_cases.json
+          CASE_COUNT=$$(grep -o '"processed_at"' /app/data/MA/foreclosure_processed_cases.json | wc -l)
+          echo "✅ $$CASE_COUNT casos já processados encontrados"
+        else
+          echo "❌ Arquivo não existe - todos serão novos casos"
         fi
         
         echo '✅ Executando JavaScript otimizado...'

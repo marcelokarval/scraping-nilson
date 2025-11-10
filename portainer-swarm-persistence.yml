@@ -160,8 +160,8 @@ services:
         
         echo '📊 Status final dos dados processados:'
         if [ -f "/app/data/MA/foreclosure_processed_cases.json" ]; then
-          CASE_COUNT=$(cat /app/data/MA/foreclosure_processed_cases.json | grep -o '"processed_at"' | wc -l)
-          echo "✅ $CASE_COUNT casos processados encontrados - novos casos serão identificados corretamente"
+          CASE_COUNT=$$(grep -o '"processed_at"' /app/data/MA/foreclosure_processed_cases.json | wc -l)
+          echo "✅ $$CASE_COUNT casos processados encontrados - novos casos serão identificados corretamente"
         else
           echo "🆕 Nenhum caso processado - todos serão tratados como novos na primeira execução"
         fi
