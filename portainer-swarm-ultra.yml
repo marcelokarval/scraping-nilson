@@ -36,6 +36,7 @@ services:
       - foreclosure_data:/app/data
       - foreclosure_logs:/app/logs
       - foreclosure_browser:/app/playwright_user_data
+      - foreclosure_code:/app
       
     deploy:
       replicas: 1
@@ -68,14 +69,26 @@ services:
         apt-get update -qq > /dev/null 2>&1
         apt-get install -y -qq git curl build-essential python3 ca-certificates xvfb > /dev/null 2>&1
         
-        echo '📥 Clonando repositório...'
+        echo '📥 Sincronizando código do repositório...'
         git config --global credential.helper store
         echo "https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com" > ~/.git-credentials
-        git clone https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com/marcelokarval/scraping-nilson.git /tmp/scraper
-        cd /tmp/scraper
-        git checkout gemini/massachusetts-system-2
-        cp -r . /app/
-        cd /app
+        
+        # Se já existe código, fazer pull. Senão, clone
+        if [ -d "/app/.git" ]; then
+          echo '🔄 Código já existe - fazendo git pull...'
+          cd /app
+          git fetch origin
+          git reset --hard origin/gemini/massachusetts-system-2
+          echo '✅ Código atualizado via git pull'
+        else
+          echo '📦 Primeira execução - clonando repositório...'
+          git clone https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com/marcelokarval/scraping-nilson.git /tmp/scraper
+          cd /tmp/scraper
+          git checkout gemini/massachusetts-system-2
+          cp -r . /app/
+          cd /app
+          echo '✅ Repositório clonado'
+        fi
         
         echo '📦 Instalando todas as dependências Node.js...'
         npm install --silent
@@ -128,27 +141,45 @@ services:
         cp -r config dist/ 2>/dev/null || true
         cp -r playwright_user_data* dist/ 2>/dev/null || true
         
-        echo '💾 Sincronizando dados processados do Git para volume...'
+        echo '💾 Sincronizando dados processados...'
         # Garantir que diretórios existam
         mkdir -p /app/data/MA
         mkdir -p /app/dist/data/MA
         
-        # Copiar SEMPRE os dados do Git para o volume (merge, não sobrescrever)
+        # ESTRATÉGIA INTELIGENTE: Merge de dados Git + Volume
+        echo '🔄 Estratégia de sincronização inteligente:'
+        
+        GIT_CASES=0
+        VOLUME_CASES=0
+        
+        # Contar casos no Git
         if [ -f "data/MA/foreclosure_processed_cases.json" ]; then
-          echo '📥 Copiando casos processados existentes do Git para volume'
+          GIT_CASES=$$(grep -o '"processed_at"' data/MA/foreclosure_processed_cases.json | wc -l 2>/dev/null || echo "0")
+          echo "📂 Git: $$GIT_CASES casos processados"
+        fi
+        
+        # Contar casos no Volume
+        if [ -f "/app/data/MA/foreclosure_processed_cases.json" ]; then
+          VOLUME_CASES=$$(grep -o '"processed_at"' /app/data/MA/foreclosure_processed_cases.json | wc -l 2>/dev/null || echo "0")
+          echo "💾 Volume: $$VOLUME_CASES casos processados"
+        fi
+        
+        # DECISÃO INTELIGENTE: Usar a fonte com mais dados
+        if [ $$GIT_CASES -gt $$VOLUME_CASES ]; then
+          echo "📥 Git tem mais dados ($$GIT_CASES > $$VOLUME_CASES) - copiando do Git para Volume"
           cp data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
           cp data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
-          
-          # CRÍTICO: Criar link simbólico para o dist acessar os dados do volume
-          ln -sf /app/data/MA /app/dist/data/MA
-          
-          CASE_COUNT_GIT=$$(grep -o '"processed_at"' data/MA/foreclosure_processed_cases.json | wc -l 2>/dev/null || echo "0")
-          echo "✅ $$CASE_COUNT_GIT casos copiados do Git para volume"
+        elif [ $$VOLUME_CASES -gt 0 ]; then
+          echo "💾 Volume já tem dados mais atualizados ($$VOLUME_CASES casos) - mantendo Volume"
         else
-          echo '⚠️ Nenhum caso processado encontrado no Git'
-          # Ainda assim criar o link simbólico
-          ln -sf /app/data/MA /app/dist/data/MA
+          echo "🆕 Primeira execução - copiando dados iniciais do Git"
+          cp data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
+          cp data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
         fi
+        
+        # CRÍTICO: Sempre criar link simbólico
+        ln -sf /app/data /app/dist/data
+        echo "🔗 Link simbólico criado: /app/dist/data -> /app/data"
         
         echo '🧹 Limpando credenciais...'
         rm -f ~/.git-credentials
@@ -189,4 +220,6 @@ volumes:
   foreclosure_logs:
     driver: local
   foreclosure_browser:
+    driver: local
+  foreclosure_code:
     driver: local
