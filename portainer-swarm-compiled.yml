@@ -1,0 +1,130 @@
+version: '3.8'
+
+# Massachusetts Scraper - Foreclosure (Compila para JS)
+# Versão que compila TypeScript para JavaScript antes de executar
+
+services:
+  foreclosure-scraper:
+    image: node:20-slim
+    
+    environment:
+      # Configurações do Scheduler - Runner 5 (Foreclosure)
+      - RUNNER_MODE=5
+      - SCHEDULE_HOUR=6
+      
+      # Configurações de Scraping
+      - DAYS_BACK=7
+      - PLAYWRIGHT_HEADLESS=false
+      
+      # Configurações de Webhook
+      - WEBHOOK_URL=${WEBHOOK_URL:-https://n8n.arthuragrelli.com/webhook/scraping}
+      - SEND_WEBHOOK=true
+      
+      # Configurações GitHub
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_USER=${GITHUB_USER:-marcelokarval}
+      
+      # Configurações de ambiente para evitar warnings
+      - DEBIAN_FRONTEND=noninteractive
+      - TERM=xterm
+      
+    volumes:
+      - foreclosure_data:/app/data
+      - foreclosure_logs:/app/logs
+      - foreclosure_browser:/app/playwright_user_data
+      
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        
+    working_dir: /app
+    
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        
+        echo '🚀 Massachusetts Foreclosure Scraper [JavaScript Mode]...'
+        
+        # Verificar token
+        if [ -z "$$GITHUB_TOKEN" ]; then
+          echo '❌ GITHUB_TOKEN não configurado!'
+          exit 1
+        fi
+        
+        echo '📦 Instalando sistema (modo silencioso)...'
+        apt-get update -qq > /dev/null 2>&1
+        apt-get install -y -qq git curl build-essential python3 ca-certificates > /dev/null 2>&1
+        
+        echo '📥 Clonando repositório...'
+        git config --global credential.helper store
+        echo "https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com" > ~/.git-credentials
+        git clone https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com/marcelokarval/scraping-nilson.git /tmp/scraper
+        cd /tmp/scraper
+        git checkout gemini/massachusetts-system-2
+        cp -r . /app/
+        cd /app
+        
+        echo '📦 Instalando dependências Node.js...'
+        npm install --silent
+        npm install -g typescript --silent
+        npm install --save-dev @types/node @types/fs-extra @types/crypto-js --silent
+        
+        echo '🎭 Instalando Playwright browsers...'
+        npx playwright install chromium --with-deps > /dev/null 2>&1
+        
+        echo '🔧 Configurando TypeScript para Node.js 20 + DOM...'
+        cat > tsconfig.json << 'EOF'
+        {
+          "compilerOptions": {
+            "target": "ES2022",
+            "module": "CommonJS",
+            "lib": ["ES2022", "DOM", "DOM.Iterable"],
+            "outDir": "./dist",
+            "rootDir": ".",
+            "strict": false,
+            "esModuleInterop": true,
+            "allowSyntheticDefaultImports": true,
+            "skipLibCheck": true,
+            "forceConsistentCasingInFileNames": true,
+            "moduleResolution": "node",
+            "resolveJsonModule": true,
+            "declaration": false,
+            "removeComments": true,
+            "types": ["node"]
+          },
+          "include": ["**/*.ts"],
+          "exclude": ["node_modules", "dist"]
+        }
+        EOF
+        
+        echo '🔨 Compilando TypeScript para JavaScript...'
+        npx tsc --project tsconfig.json
+        
+        echo '📂 Copiando arquivos necessários...'
+        cp -r data dist/ 2>/dev/null || true
+        cp -r config dist/ 2>/dev/null || true
+        
+        echo '🧹 Limpando credenciais...'
+        rm -f ~/.git-credentials
+        
+        echo '✅ Executando JavaScript compilado com Node.js 20...'
+        cd dist
+        node --version
+        node runners/MA/main.js
+
+volumes:
+  foreclosure_data:
+    driver: local
+  foreclosure_logs:
+    driver: local
+  foreclosure_browser:
+    driver: local

@@ -1,7 +1,7 @@
 version: '3.8'
 
-# Massachusetts Scraper - Foreclosure Only (Docker Swarm)
-# Versão simplificada compatível com Docker Swarm
+# Massachusetts Scraper - Foreclosure (Sem GitHub Clone)
+# Versão que cria o código diretamente no container
 
 services:
   foreclosure-scraper:
@@ -29,6 +29,8 @@ services:
       - LOG_LEVEL=info
       
     volumes:
+      # Volume com código fonte (você precisa criar este volume manualmente)
+      - scraper_source:/app
       # Dados persistentes
       - foreclosure_data:/app/data
       - foreclosure_logs:/app/logs
@@ -55,24 +57,27 @@ services:
         
     working_dir: /app
     
-    # Comando que instala tudo e executa o scraper
+    # Comando que só instala dependências e executa (código já deve estar no volume)
     command: >
       bash -c "
         echo '🚀 Iniciando Massachusetts Foreclosure Scraper...' &&
+        if [ ! -f package.json ]; then
+          echo '❌ Código não encontrado! Verifique o volume scraper_source';
+          echo '📝 Instruções:';
+          echo '   1. Clone o repositório no servidor';
+          echo '   2. Copie os arquivos para o volume';
+          echo '   3. Reinicie o serviço';
+          sleep 30;
+          exit 1;
+        fi &&
+        echo '📥 Atualizando sistema...' &&
         apt-get update -qq &&
-        apt-get install -y -qq git curl wget gnupg ca-certificates &&
-        echo '📦 Baixando código fonte...' &&
-        curl -L https://github.com/marcelokarval/scraping-nilson/archive/refs/heads/gemini/massachusetts-system-2.zip -o /tmp/source.zip &&
-        apt-get install -y -qq unzip &&
-        cd /tmp &&
-        unzip -q source.zip &&
-        cp -r scraping-nilson-gemini-massachusetts-system-2/* /app/ &&
-        cd /app &&
-        echo '📥 Instalando dependências...' &&
+        apt-get install -y -qq ca-certificates curl gnupg &&
+        echo '📦 Instalando dependências Node...' &&
         npm install --silent &&
         echo '🎭 Instalando Playwright...' &&
         npx playwright install chromium --with-deps &&
-        echo '✅ Iniciando scraper...' &&
+        echo '✅ Iniciando Massachusetts Scraper...' &&
         npx ts-node runners/MA/main.ts
       "
     
@@ -82,10 +87,12 @@ services:
       interval: 60s
       timeout: 10s
       retries: 3
-      start_period: 120s
+      start_period: 180s
 
 # Volumes para persistência
 volumes:
+  scraper_source:
+    driver: local
   foreclosure_data:
     driver: local
   foreclosure_logs:
