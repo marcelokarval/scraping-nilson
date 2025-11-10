@@ -73,30 +73,22 @@ services:
         cd /tmp/scraper
         git checkout gemini/massachusetts-system-2
         
-        echo '💾 Verificando e sincronizando dados persistentes...'
-        # Primeiro, verificar se volume tem dados
-        echo "Status do volume de dados:"
-        ls -la /app/data/MA/ 2>/dev/null || echo "❌ Diretório /app/data/MA/ não existe"
-        
-        # Criar diretórios se não existem
+        echo '💾 Configurando persistência de dados...'
         mkdir -p /app/data/MA
+        mkdir -p /app/dist/data/MA
         
-        # Copiar código para /app (sem sobrescrever /app/data devido ao volume)
-        cp -r . /app/
-        
-        # Sincronizar dados do Git com volume APENAS se volume estiver vazio
-        if [ ! -f "/app/data/MA/foreclosure_processed_cases.json" ]; then
-          echo '📥 Volume vazio - inicializando com dados do repositório'
-          if [ -f "/tmp/scraper/data/MA/foreclosure_processed_cases.json" ]; then
-            cp /tmp/scraper/data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
-            cp /tmp/scraper/data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
-            echo '✅ Dados históricos copiados do repositório'
-          else
-            echo '🆕 Nenhum dado histórico no repositório - iniciando limpo'
-          fi
-        else
-          echo '♻️ Volume já contém dados - mantendo existentes'
+        # Copiar SEMPRE os dados do Git para o volume
+        if [ -f "data/MA/foreclosure_processed_cases.json" ]; then
+          echo '📥 Sincronizando casos processados do Git para volume'
+          cp data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
+          cp data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
+          
+          CASE_COUNT_GIT=$$(grep -o '"processed_at"' data/MA/foreclosure_processed_cases.json | wc -l 2>/dev/null || echo "0")
+          echo "✅ $$CASE_COUNT_GIT casos copiados do Git para volume"
         fi
+        
+        # CRÍTICO: Criar link simbólico para o dist acessar os dados do volume
+        ln -sf /app/data/MA /app/dist/data/MA
         
         cd /app
         
@@ -159,11 +151,21 @@ services:
         sleep 3
         
         echo '📊 Status final dos dados processados:'
+        echo "Volume: /app/data/MA/foreclosure_processed_cases.json"
+        echo "Dist:   /app/dist/data/MA/foreclosure_processed_cases.json"
+        
         if [ -f "/app/data/MA/foreclosure_processed_cases.json" ]; then
-          CASE_COUNT=$$(grep -o '"processed_at"' /app/data/MA/foreclosure_processed_cases.json | wc -l)
-          echo "✅ $$CASE_COUNT casos processados encontrados - novos casos serão identificados corretamente"
+          CASE_COUNT=$$(grep -o '"processed_at"' /app/data/MA/foreclosure_processed_cases.json | wc -l 2>/dev/null || echo "0")
+          echo "✅ $$CASE_COUNT casos já processados encontrados no VOLUME"
         else
-          echo "🆕 Nenhum caso processado - todos serão tratados como novos na primeira execução"
+          echo "❌ Nenhum caso processado encontrado no volume"
+        fi
+        
+        if [ -f "/app/dist/data/MA/foreclosure_processed_cases.json" ]; then
+          CASE_COUNT_DIST=$$(grep -o '"processed_at"' /app/dist/data/MA/foreclosure_processed_cases.json | wc -l 2>/dev/null || echo "0")
+          echo "✅ $$CASE_COUNT_DIST casos acessíveis pelo sistema (DIST) - novos serão identificados corretamente"
+        else
+          echo "❌ Sistema não consegue acessar casos processados (DIST) - todos serão novos"
         fi
         
         echo '✅ Executando JavaScript otimizado...'
