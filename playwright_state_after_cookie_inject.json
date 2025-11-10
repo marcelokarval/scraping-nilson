@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "_GRECAPTCHA",
+      "value": "09ADiQh0d7e_T0CtQMNwknvOHiRAjYB6FktyoY2ZXAA1M2CgOF0Or0xGy__EoEh5Ehy2YYA6emfdLFVRpm9nn59Dk",
+      "domain": "www.google.com",
+      "path": "/recaptcha",
+      "expires": 1776965237.266885,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BNIS_STCookie",
+      "value": "HSd7AoK+61DkrgJwFxLXslActT6L9NC1XJQtmyxgKTroWb4ly+js14I1fbtaVQmWADl96kblyXV4yoesd50qFQ==",
+      "domain": "www.masscourts.org",
+      "path": "/eservices",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "JSESSIONID",
+      "value": "9E6A53DB542A1C50048352A8307DF2DC",
+      "domain": "www.masscourts.org",
+      "path": "/eservices",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BNI_persistence",
+      "value": "pi-qmK1uyptNN9BoHNAWMWjQcG_KKlTaGxqZVAI6z1JXhewk0rGf3dwKkJIkE9Sck6dcF2_4w3RAl_A5zNMnoQ==",
+      "domain": "www.masscourts.org",
+      "path": "/",
+      "expires": 1761413862,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}
