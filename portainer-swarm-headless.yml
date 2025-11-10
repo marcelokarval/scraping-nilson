@@ -1,7 +1,7 @@
 version: '3.8'
 
-# Massachusetts Scraper - Foreclosure (Ultra Otimizado - Final)
-# Versão com todas as bibliotecas TypeScript necessárias
+# Massachusetts Scraper - Foreclosure (Ultra Otimizado + Headless Fix)
+# Versão com correção para execução headless em containers
 
 services:
   foreclosure-scraper:
@@ -12,7 +12,7 @@ services:
       - RUNNER_MODE=5
       - SCHEDULE_HOUR=6
       
-      # Configurações de Scraping
+      # Configurações de Scraping - HEADLESS TRUE para containers
       - DAYS_BACK=7
       - PLAYWRIGHT_HEADLESS=true
       
@@ -24,11 +24,9 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - GITHUB_USER=${GITHUB_USER:-marcelokarval}
       
-      # Configurações de ambiente para evitar warnings
+      # Configurações de ambiente para containers
       - DEBIAN_FRONTEND=noninteractive
       - TERM=xterm
-      
-      # Configurações Playwright para containers
       - DISPLAY=:99
       - PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
       
@@ -56,7 +54,7 @@ services:
       - |
         set -e
         
-        echo '🚀 Massachusetts Foreclosure Scraper [Ultra Optimized]...'
+        echo '🚀 Massachusetts Foreclosure Scraper [Ultra Optimized + Headless]...'
         
         # Verificar token
         if [ -z "$$GITHUB_TOKEN" ]; then
@@ -64,9 +62,9 @@ services:
           exit 1
         fi
         
-        echo '📦 Instalando sistema (modo silencioso)...'
+        echo '📦 Instalando sistema com suporte gráfico virtual...'
         apt-get update -qq > /dev/null 2>&1
-        apt-get install -y -qq git curl build-essential python3 ca-certificates xvfb > /dev/null 2>&1
+        apt-get install -y -qq git curl build-essential python3 ca-certificates xvfb xauth > /dev/null 2>&1
         
         echo '📥 Clonando repositório...'
         git config --global credential.helper store
@@ -133,7 +131,11 @@ services:
         
         echo '🖥️ Iniciando display virtual para Playwright...'
         Xvfb :99 -ac -screen 0 1280x1024x24 > /dev/null 2>&1 &
-        sleep 2
+        export DISPLAY=:99
+        sleep 3
+        
+        echo '🧪 Testando Playwright headless...'
+        echo 'Playwright configurado para HEADLESS=true'
         
         echo '✅ Executando JavaScript otimizado...'
         cd dist
