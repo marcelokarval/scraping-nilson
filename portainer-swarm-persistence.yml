@@ -1,7 +1,7 @@
 version: '3.8'
 
-# Massachusetts Scraper - Foreclosure (Ultra Otimizado - Final)
-# Versão com todas as bibliotecas TypeScript necessárias
+# Massachusetts Scraper - Foreclosure (Ultra + Data Persistence Fix)
+# Versão que resolve problema de casos processados no Portainer
 
 services:
   foreclosure-scraper:
@@ -12,7 +12,7 @@ services:
       - RUNNER_MODE=5
       - SCHEDULE_HOUR=6
       
-      # Configurações de Scraping
+      # Configurações de Scraping - HEADLESS TRUE para containers
       - DAYS_BACK=7
       - PLAYWRIGHT_HEADLESS=true
       
@@ -24,11 +24,9 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - GITHUB_USER=${GITHUB_USER:-marcelokarval}
       
-      # Configurações de ambiente para evitar warnings
+      # Configurações de ambiente para containers
       - DEBIAN_FRONTEND=noninteractive
       - TERM=xterm
-      
-      # Configurações Playwright para containers
       - DISPLAY=:99
       - PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
       
@@ -56,7 +54,7 @@ services:
       - |
         set -e
         
-        echo '🚀 Massachusetts Foreclosure Scraper [Ultra Optimized]...'
+        echo '🚀 Massachusetts Foreclosure Scraper [Data Persistence Fixed]...'
         
         # Verificar token
         if [ -z "$$GITHUB_TOKEN" ]; then
@@ -64,9 +62,9 @@ services:
           exit 1
         fi
         
-        echo '📦 Instalando sistema (modo silencioso)...'
+        echo '📦 Instalando sistema com suporte gráfico virtual...'
         apt-get update -qq > /dev/null 2>&1
-        apt-get install -y -qq git curl build-essential python3 ca-certificates xvfb > /dev/null 2>&1
+        apt-get install -y -qq git curl build-essential python3 ca-certificates xvfb xauth > /dev/null 2>&1
         
         echo '📥 Clonando repositório...'
         git config --global credential.helper store
@@ -74,7 +72,32 @@ services:
         git clone https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com/marcelokarval/scraping-nilson.git /tmp/scraper
         cd /tmp/scraper
         git checkout gemini/massachusetts-system-2
+        
+        echo '💾 Verificando e sincronizando dados persistentes...'
+        # Primeiro, verificar se volume tem dados
+        echo "Status do volume de dados:"
+        ls -la /app/data/MA/ 2>/dev/null || echo "❌ Diretório /app/data/MA/ não existe"
+        
+        # Criar diretórios se não existem
+        mkdir -p /app/data/MA
+        
+        # Copiar código para /app (sem sobrescrever /app/data devido ao volume)
         cp -r . /app/
+        
+        # Sincronizar dados do Git com volume APENAS se volume estiver vazio
+        if [ ! -f "/app/data/MA/foreclosure_processed_cases.json" ]; then
+          echo '📥 Volume vazio - inicializando com dados do repositório'
+          if [ -f "/tmp/scraper/data/MA/foreclosure_processed_cases.json" ]; then
+            cp /tmp/scraper/data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
+            cp /tmp/scraper/data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
+            echo '✅ Dados históricos copiados do repositório'
+          else
+            echo '🆕 Nenhum dado histórico no repositório - iniciando limpo'
+          fi
+        else
+          echo '♻️ Volume já contém dados - mantendo existentes'
+        fi
+        
         cd /app
         
         echo '📦 Instalando todas as dependências Node.js...'
@@ -124,38 +147,29 @@ services:
         }
         
         echo '📂 Copiando arquivos de configuração...'
-        cp -r data dist/ 2>/dev/null || true
         cp -r config dist/ 2>/dev/null || true
         cp -r playwright_user_data* dist/ 2>/dev/null || true
-        
-        echo '💾 Sincronizando dados processados do Git para volume...'
-        # Se existem dados no Git mas não no volume, copiar
-        if [ -f "data/MA/foreclosure_processed_cases.json" ] && [ ! -f "/app/data/MA/foreclosure_processed_cases.json" ]; then
-          echo '📥 Copiando casos processados existentes do Git para volume'
-          mkdir -p /app/data/MA
-          cp data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
-          cp data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
-        fi
         
         echo '🧹 Limpando credenciais...'
         rm -f ~/.git-credentials
         
         echo '🖥️ Iniciando display virtual para Playwright...'
         Xvfb :99 -ac -screen 0 1280x1024x24 > /dev/null 2>&1 &
-        sleep 2
+        export DISPLAY=:99
+        sleep 3
         
-        echo '🔍 Verificando status dos dados processados...'
-        echo "Arquivo de casos processados:"
-        ls -la /app/data/MA/foreclosure_processed_cases.json 2>/dev/null || echo "❌ Arquivo não existe - todos serão novos casos"
+        echo '📊 Status final dos dados processados:'
         if [ -f "/app/data/MA/foreclosure_processed_cases.json" ]; then
           CASE_COUNT=$(cat /app/data/MA/foreclosure_processed_cases.json | grep -o '"processed_at"' | wc -l)
-          echo "✅ $CASE_COUNT casos já processados encontrados"
+          echo "✅ $CASE_COUNT casos processados encontrados - novos casos serão identificados corretamente"
+        else
+          echo "🆕 Nenhum caso processado - todos serão tratados como novos na primeira execução"
         fi
         
         echo '✅ Executando JavaScript otimizado...'
         cd dist
         node --version
-        echo 'TypeScript compilado com sucesso! Iniciando scraper...'
+        echo 'TypeScript compilado e dados sincronizados! Iniciando scraper...'
         node runners/MA/main.js
 
 volumes:
