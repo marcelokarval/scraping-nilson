@@ -1,0 +1,276 @@
+version: '3.8'
+
+# Stack: Massachusetts Scraping System v1.0.0
+# Deploy: Portainer
+
+services:
+  massachusetts-scraper:
+    image: massachusetts-scraper:v1.0.0
+    container_name: massachusetts-scraper
+    hostname: ma-scraper-prod
+    
+    environment:
+      # Configurações de Produção
+      - NODE_ENV=production
+      - PLAYWRIGHT_HEADLESS=false
+      - DAYS_BACK=0
+      - ENABLE_ENRICHMENT=true
+      - SEND_WEBHOOK=true
+      
+      # URLs dos serviços (Configure através das variáveis do Portainer)
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - OCR_API_URL=${OCR_API_URL}
+      
+      # Configurações opcionais
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - FORCE_REENRICHMENT=${FORCE_REENRICHMENT:-false}
+      
+    volumes:
+      # Dados persistentes
+      - ma_data:/app/data
+      - ma_config:/app/config
+      - ma_logs:/app/logs
+      - ma_browser:/app/playwright_user_data
+      - ma_playwright_cache:/app/playwright_user_data_cache
+      
+    ports:
+      # API futura (opcional)
+      - "${API_PORT:-3000}:3000"
+      
+    networks:
+      - massachusetts_network
+      
+    restart: unless-stopped
+    
+    # Comando padrão: menu interativo
+    command: massachusetts
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+      
+    # Recursos
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+          
+    # Labels para Portainer
+    labels:
+      - "traefik.enable=false"
+      - "portainer.stack=massachusetts-scraper"
+      - "portainer.version=v1.0.0"
+      - "description=Massachusetts Court Scraping System"
+
+  # Runner Foreclosure (Instância dedicada)
+  foreclosure-runner:
+    image: massachusetts-scraper:v1.0.0
+    container_name: ma-foreclosure-runner
+    hostname: ma-foreclosure
+    
+    environment:
+      - NODE_ENV=production
+      - PLAYWRIGHT_HEADLESS=false
+      - DAYS_BACK=0
+      - ENABLE_ENRICHMENT=true
+      - SEND_WEBHOOK=true
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - OCR_API_URL=${OCR_API_URL}
+      
+    volumes:
+      - ma_data:/app/data
+      - ma_config:/app/config
+      - ma_logs:/app/logs
+      - ma_foreclosure_browser:/app/playwright_user_data
+      
+    networks:
+      - massachusetts_network
+      
+    restart: unless-stopped
+    command: foreclosure
+    
+    profiles:
+      - dedicated-runners
+      
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+
+  # Runner Probate (Instância dedicada)
+  probate-runner:
+    image: massachusetts-scraper:v1.0.0
+    container_name: ma-probate-runner
+    hostname: ma-probate
+    
+    environment:
+      - NODE_ENV=production
+      - PLAYWRIGHT_HEADLESS=false
+      - DAYS_BACK=0
+      - ENABLE_ENRICHMENT=true
+      - SEND_WEBHOOK=true
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - OCR_API_URL=${OCR_API_URL}
+      
+    volumes:
+      - ma_data:/app/data
+      - ma_config:/app/config
+      - ma_logs:/app/logs
+      - ma_probate_browser:/app/playwright_user_data
+      
+    networks:
+      - massachusetts_network
+      
+    restart: unless-stopped
+    command: probate
+    
+    profiles:
+      - dedicated-runners
+      
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+
+  # Runner HOA (Instância dedicada)
+  hoa-runner:
+    image: massachusetts-scraper:v1.0.0
+    container_name: ma-hoa-runner
+    hostname: ma-hoa
+    
+    environment:
+      - NODE_ENV=production
+      - PLAYWRIGHT_HEADLESS=false
+      - DAYS_BACK=0
+      - ENABLE_ENRICHMENT=true
+      - SEND_WEBHOOK=true
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - OCR_API_URL=${OCR_API_URL}
+      
+    volumes:
+      - ma_data:/app/data
+      - ma_config:/app/config
+      - ma_logs:/app/logs
+      - ma_hoa_browser:/app/playwright_user_data
+      
+    networks:
+      - massachusetts_network
+      
+    restart: unless-stopped
+    command: hoa
+    
+    profiles:
+      - dedicated-runners
+      
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+
+  # Runner Pre-Foreclosure (Instância dedicada)
+  preforeclosure-runner:
+    image: massachusetts-scraper:v1.0.0
+    container_name: ma-preforeclosure-runner
+    hostname: ma-preforeclosure
+    
+    environment:
+      - NODE_ENV=production
+      - PLAYWRIGHT_HEADLESS=false
+      - DAYS_BACK=0
+      - ENABLE_ENRICHMENT=true
+      - SEND_WEBHOOK=true
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - OCR_API_URL=${OCR_API_URL}
+      
+    volumes:
+      - ma_data:/app/data
+      - ma_config:/app/config
+      - ma_logs:/app/logs
+      - ma_preforeclosure_browser:/app/playwright_user_data
+      
+    networks:
+      - massachusetts_network
+      
+    restart: unless-stopped
+    command: preforeclosure
+    
+    profiles:
+      - dedicated-runners
+      
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+
+networks:
+  massachusetts_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  # Dados compartilhados
+  ma_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH:-./data}
+      
+  ma_config:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${CONFIG_PATH:-./config}
+      
+  ma_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${LOGS_PATH:-./logs}
+      
+  # Browser data separado por runner
+  ma_browser:
+    driver: local
+    
+  ma_foreclosure_browser:
+    driver: local
+    
+  ma_probate_browser:
+    driver: local
+    
+  ma_hoa_browser:
+    driver: local
+    
+  ma_preforeclosure_browser:
+    driver: local
+    
+  ma_playwright_cache:
+    driver: local

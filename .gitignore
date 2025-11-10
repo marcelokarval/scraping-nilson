@@ -16,6 +16,10 @@ build/
 .env.test.local
 .env.production.local
 
+# Docker
+.docker/
+docker-compose.override.yml
+
 # Logs
 logs
 *.log

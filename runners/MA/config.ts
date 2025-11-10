@@ -24,7 +24,7 @@ export const MA_CONFIG: StateRunnerConfig = {
 // Massachusetts specific default options
 export const MA_DEFAULT_OPTIONS: Partial<MARunOptions> = {
   daysBack: 5, // 0 = busca apenas hoje, >0 = busca X dias atrás
-  headless: true,
+  headless: false,
   sendWebhook: true
 };
 
