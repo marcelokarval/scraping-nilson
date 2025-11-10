@@ -1,17 +1,11 @@
 version: '3.8'
 
-# Massachusetts Scraper - Foreclosure Only (Build Automático)
-# Stack que builda a imagem direto do GitHub
+# Massachusetts Scraper - Foreclosure Only (Docker Swarm Compatible)
+# Stack compatível com Docker Swarm mode
 
 services:
   massachusetts-foreclosure:
-    build:
-      context: https://github.com/marcelokarval/scraping-nilson.git#gemini/massachusetts-system-2
-      dockerfile: Dockerfile
-      args:
-        - NODE_ENV=production
-    image: massachusetts-scraper:latest
-    container_name: ma-foreclosure-scraper
+    image: node:18-slim
     hostname: ma-foreclosure-prod
     
     environment:
@@ -51,13 +45,33 @@ services:
       # API interna (opcional)
       - "${API_PORT:-3000}:3000"
       
-    networks:
-      - foreclosure_network
-      
-    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: unless-stopped
+        delay: 5s
+        max_attempts: 3
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
     
-    # Comando para Massachusetts system
-    command: massachusetts
+    # Comando para instalar dependências e executar o scraper
+    command: >
+      bash -c "
+        apt-get update && 
+        apt-get install -y git curl wget gnupg ca-certificates && 
+        git clone https://github.com/marcelokarval/scraping-nilson.git /tmp/scraper &&
+        cd /tmp/scraper &&
+        git checkout gemini/massachusetts-system-2 &&
+        cp -r . /app/ &&
+        cd /app &&
+        npm install &&
+        npx playwright install chromium --with-deps &&
+        npx ts-node runners/MA/main.ts
+      "
     
     # Health check específico para Foreclosure
     healthcheck:
@@ -65,14 +79,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
-    
-    # Labels para organização no Portainer
-    labels:
-      - "traefik.enable=false"
-      - "com.massachusetts.scraper=foreclosure"
-      - "com.massachusetts.version=v1.0.0"
-      - "com.massachusetts.schedule=daily-06h"
+      start_period: 60s
 
 # Volumes nomeados para persistência
 volumes:
@@ -92,8 +99,4 @@ volumes:
     name: ma_foreclosure_cache
     driver: local
 
-# Rede isolada
-networks:
-  foreclosure_network:
-    name: foreclosure_network
-    driver: bridge
+# Redes não necessárias no Swarm mode - usa rede padrão
