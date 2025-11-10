@@ -1,0 +1,76 @@
+{
+  "processed": {
+    "5linwooddrwilbrahamma01095": {
+      "processed_at": "2025-11-08T14:38:37.777Z",
+      "caseNumber": "5 Linwood Dr, Wilbraham, MA 01095",
+      "city": "Wilbraham",
+      "source": "9a573305581a96f04fc1247cfac9606bcdee0d05374647349e920a4787f81644"
+    },
+    "159fernhillstchicopeema01020": {
+      "processed_at": "2025-11-08T14:38:38.455Z",
+      "caseNumber": "159 Fernhill St, Chicopee, MA 01020",
+      "city": "Chicopee",
+      "source": "9a573305581a96f04fc1247cfac9606bcdee0d05374647349e920a4787f81644"
+    },
+    "24silverstlancasterma01523": {
+      "processed_at": "2025-11-08T14:38:39.205Z",
+      "caseNumber": "24 Silver St, Lancaster, MA 01523",
+      "city": "Lancaster",
+      "source": "20d5783a06c94eae45e69aa34bbd874952d900bc1376723cb4878e60c8721b69"
+    },
+    "7173boutellestfitchburgma01420": {
+      "processed_at": "2025-11-08T14:38:39.874Z",
+      "caseNumber": "71-73 Boutelle St, Fitchburg, MA 01420",
+      "city": "Fitchburg",
+      "source": "9a573305581a96f04fc1247cfac9606bcdee0d05374647349e920a4787f81644"
+    },
+    "177gorerdwebsterma01570": {
+      "processed_at": "2025-11-08T14:38:40.637Z",
+      "caseNumber": "177 Gore Rd, Webster, MA 01570",
+      "city": "Webster",
+      "source": "ca65a338d0269ceecd57c08f832d24caa8ac5161c1152706fa1addfc985925d3"
+    },
+    "57brushhillrdyarmouthportyarmouthma02675": {
+      "processed_at": "2025-11-08T14:38:41.306Z",
+      "caseNumber": "57 Brush Hill Rd, Yarmouth Port (Yarmouth), MA 02675",
+      "city": "Yarmouth Port Yarmouth",
+      "source": "2e52acf318e70063a705b541afc557d84a9b79371f5a44d1df92c67b464d2d37"
+    },
+    "76pelicandrakaunitpe76ofthehomesatswanpondcondominiumwalpolema02081": {
+      "processed_at": "2025-11-08T14:38:41.965Z",
+      "caseNumber": "76 Pelican Dr a/k/a Unit PE 76 of the Homes at Swan Pond Condominium, Walpole, MA 02081",
+      "city": "Walpole",
+      "source": "63cb09017c97d258253e252552234e60bbf4c3b955c0f569fd21e4e39c62a3a7"
+    },
+    "177flintstspringfieldma01129": {
+      "processed_at": "2025-11-08T14:38:42.633Z",
+      "caseNumber": "177 Flint St, Springfield, MA 01129",
+      "city": "Springfield",
+      "source": "68c2edb452e809e27bbacb13b148a04cecf5f214d0513ad49c353c807b06ab71"
+    },
+    "5millerstseekonkma02771": {
+      "processed_at": "2025-11-08T14:38:43.283Z",
+      "caseNumber": "5 Miller St, Seekonk, MA 02771",
+      "city": "Seekonk",
+      "source": "68c2edb452e809e27bbacb13b148a04cecf5f214d0513ad49c353c807b06ab71"
+    },
+    "518snellstfallriverma02721": {
+      "processed_at": "2025-11-08T14:38:43.999Z",
+      "caseNumber": "518 Snell St, Fall River, MA 02721",
+      "city": "Fall River",
+      "source": "32124f238c8a2f3da49c7e311d0f31f7ce937d280c82d31a1239948440ec4d6a"
+    },
+    "19barehillrdboltonma01740": {
+      "processed_at": "2025-11-08T14:38:44.672Z",
+      "caseNumber": "19 Bare Hill Rd, Bolton, MA 01740",
+      "city": "Bolton",
+      "source": "b23002edc782ecf524912befbb61ecad5df9194a3ee77f3f1306e7750635ccf8"
+    },
+    "443thompsonsthalifaxma02338": {
+      "processed_at": "2025-11-08T14:38:45.329Z",
+      "caseNumber": "443 Thompson St, Halifax, MA 02338",
+      "city": "Halifax",
+      "source": "68c2edb452e809e27bbacb13b148a04cecf5f214d0513ad49c353c807b06ab71"
+    }
+  }
+}
