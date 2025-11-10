@@ -32,13 +32,15 @@ Para configurar e iniciar o trabalho neste repositório, siga os seguintes passo
 | **Pre-Foreclosure** | MassCourts.org | Casos pré-foreclosure (defendants) | ✅ Ativo |
 
 ### ⚡ Quick Start - Execução
+
+#### 🖥️ Modo Interativo (Desenvolvimento)
 ```bash
 # Instalar dependências
 npm install
 
 # Executar sistema Massachusetts
 cd runners/MA
-npx ts-node executor.ts
+npx ts-node main.ts
 
 # Menu interativo:
 # 1 - Todos os scrapers
@@ -47,6 +49,19 @@ npx ts-node executor.ts
 # 4 - Probate apenas
 # 5 - Foreclosure apenas
 ```
+
+#### 🤖 Modo Automático (Produção)
+```bash
+# Configurar variáveis
+export RUNNER_MODE=all        # ou 1,2,3,4,5,preforeclosure,hoa,probate,foreclosure
+export SCHEDULE_HOUR=9        # Horário diário (9 = 09:00)
+
+# Executar com scheduler
+cd runners/MA
+npx ts-node main.ts
+```
+
+📖 **Documentação completa do scheduler**: [docs/SCHEDULER.md](docs/SCHEDULER.md)
 
 ### 🔧 Configurações Principais
 - **daysBack**: `0` (apenas hoje) | `N` (últimos N dias)

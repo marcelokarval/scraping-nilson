@@ -9,6 +9,8 @@ export interface BaseRunOptions {
   forceReenrichment?: boolean;
   ocrApiUrl?: string;
   logLevel?: string;
+  runnerMode?: string;
+  scheduleHour?: number;
 }
 
 export interface StateRunnerConfig {

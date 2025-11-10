@@ -30,7 +30,9 @@ export const MA_DEFAULT_OPTIONS: Partial<MARunOptions> = {
   forceReenrichment: process.env.FORCE_REENRICHMENT === 'true',
   webhookUrl: process.env.WEBHOOK_URL,
   ocrApiUrl: process.env.OCR_API_URL,
-  logLevel: process.env.LOG_LEVEL || 'info'
+  logLevel: process.env.LOG_LEVEL || 'info',
+  runnerMode: process.env.RUNNER_MODE || 'interactive', // 1|2|3|4|5|all|interactive
+  scheduleHour: parseInt(process.env.SCHEDULE_HOUR || '9', 10) // Hora para execução diária (0-23)
 };
 
 // Massachusetts specific court departments

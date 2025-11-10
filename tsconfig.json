@@ -5,6 +5,8 @@
     "rootDir": ".",
     "outDir": "dist",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
     "moduleResolution": "node",
     "strict": false,
     "skipLibCheck": true,

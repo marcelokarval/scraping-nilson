@@ -25,6 +25,10 @@ services:
       - LOG_LEVEL=${LOG_LEVEL:-info}
       - FORCE_REENRICHMENT=${FORCE_REENRICHMENT:-false}
       
+      # Configurações do Scheduler
+      - RUNNER_MODE=${RUNNER_MODE:-interactive}
+      - SCHEDULE_HOUR=${SCHEDULE_HOUR:-9}
+      
     volumes:
       # Dados persistentes
       - ma_data:/app/data

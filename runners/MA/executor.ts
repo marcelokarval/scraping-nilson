@@ -267,6 +267,27 @@ class MARunnerExecutor {
     }
   }
 
+  // Métodos públicos para uso pelo scheduler
+  public async executeAllScrapers(): Promise<void> {
+    return this.runAllScrapers();
+  }
+
+  public async executePreForeclosure(): Promise<void> {
+    return this.runPreForeclosure();
+  }
+
+  public async executeHOA(): Promise<void> {
+    return this.runHOA();
+  }
+
+  public async executeProbate(): Promise<void> {
+    return this.runProbate();
+  }
+
+  public async executeForeclosure(): Promise<void> {
+    return this.runForeclosure();
+  }
+
   close(): void {
     this.rl.close();
   }

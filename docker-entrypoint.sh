@@ -28,8 +28,8 @@ fi
 # Executar com base no comando
 case "$1" in
     massachusetts|ma)
-        echo "📍 Executando Massachusetts System Menu"
-        run_as_node npx ts-node runners/MA/executor.ts
+        echo "📍 Executando Massachusetts System (modo baseado em RUNNER_MODE)"
+        run_as_node npx ts-node runners/MA/main.ts
         ;;
     foreclosure)
         echo "🏠 Executando apenas Foreclosure Runner"
