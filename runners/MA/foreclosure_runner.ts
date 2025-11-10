@@ -7,16 +7,12 @@ import axios from 'axios';
 import { sha256String } from '../../utils/hash';
 import processedStore from '../../lib/processed_store';
 import LocationPathManager from '../../utils/location_manager';
+import { BaseRunOptions } from '../base_runner';
+import { MA_DEFAULT_OPTIONS } from './config';
 
-interface ForeclosureRunOptions {
+interface ForeclosureRunOptions extends BaseRunOptions {
   stateFilter?: string;
   outputDir?: string;
-  sendWebhook?: boolean;
-  webhookUrl?: string;
-  daysBack?: number;
-  enableEnrichment?: boolean;
-  forceReenrichment?: boolean;
-  headless?: boolean;
 }
 
 interface ForeclosureListing {
@@ -138,7 +134,8 @@ export class ForeclosureRunner {
   }
 
   async run(options: ForeclosureRunOptions = {}) {
-    this.runOptions = options;
+    // Merge with default options from environment variables
+    this.runOptions = { ...MA_DEFAULT_OPTIONS, ...options };
     
     // Ensure output directory exists
     if (!fs.existsSync(this.baseDataDir)) {

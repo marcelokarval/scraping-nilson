@@ -5,6 +5,10 @@ export interface BaseRunOptions {
   daysBack?: number;
   sendWebhook?: boolean;
   webhookUrl?: string;
+  enableEnrichment?: boolean;
+  forceReenrichment?: boolean;
+  ocrApiUrl?: string;
+  logLevel?: string;
 }
 
 export interface StateRunnerConfig {

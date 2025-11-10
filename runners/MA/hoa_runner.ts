@@ -10,18 +10,10 @@ import axios from 'axios';
 import { sha256String } from '../../utils/hash';
 import { extractPdf as callOcrService, ensureExtractAndSave } from '../../services/ocr_client';
 import LocationPathManager from '../../utils/location_manager';
+import { BaseRunOptions } from '../base_runner';
+import { MA_DEFAULT_OPTIONS, MARunOptions } from './config';
 
-interface HOARunOptions {
-  divisionStartAfterValue?: string;
-  divisionStartAfterName?: string;
-  divisionStartFromValue?: string;
-  divisionStartFromName?: string;
-  divisionAllowList?: string[];
-  departmentContains?: string;
-  daysBack?: number;
-  caseCd?: string;
-  statCd?: string;
-  ptyCd?: string;
+interface HOARunOptions extends MARunOptions {
 }
 
 export class HOARunner {
@@ -225,7 +217,8 @@ export class HOARunner {
   }
 
   async run(options: HOARunOptions = {}) {
-    this.runOptions = options || {};
+    // Merge with default options from environment variables
+    this.runOptions = { ...MA_DEFAULT_OPTIONS, ...options };
     if (!this.context) await this.init();
     const page = await this.context!.newPage();
     await page.goto('https://www.masscourts.org/eservices/home.page');
@@ -635,6 +628,11 @@ export class HOARunner {
       }
 
       // Send webhook
+      if (!this.runOptions.sendWebhook) {
+        logger.info('Webhook desabilitado nas configurações — não envia webhook');
+        return caseData;
+      }
+      
       try {
         const caseDirCheck = this._getCaseDir(city, caseData.case_number);
         const outJsonCheck = path.join(caseDirCheck, this._formatExtractedJson(caseData.case_number));

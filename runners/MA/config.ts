@@ -23,9 +23,14 @@ export const MA_CONFIG: StateRunnerConfig = {
 
 // Massachusetts specific default options
 export const MA_DEFAULT_OPTIONS: Partial<MARunOptions> = {
-  daysBack: 5, // 0 = busca apenas hoje, >0 = busca X dias atrás
-  headless: false,
-  sendWebhook: true
+  daysBack: parseInt(process.env.DAYS_BACK || process.env.LAST_N_DAYS || '5', 10),
+  headless: process.env.PLAYWRIGHT_HEADLESS === 'true',
+  sendWebhook: process.env.SEND_WEBHOOK !== 'false',
+  enableEnrichment: process.env.ENABLE_ENRICHMENT !== 'false',
+  forceReenrichment: process.env.FORCE_REENRICHMENT === 'true',
+  webhookUrl: process.env.WEBHOOK_URL,
+  ocrApiUrl: process.env.OCR_API_URL,
+  logLevel: process.env.LOG_LEVEL || 'info'
 };
 
 // Massachusetts specific court departments
