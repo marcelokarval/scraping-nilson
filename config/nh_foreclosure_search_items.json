@@ -1,0 +1,32 @@
+{
+  "primary_search": {
+    "base_url": "https://www.courts.nh.gov", 
+    "search_type": "masscourts_style",
+    "document_types": ["Foreclosure", "Real Property"],
+    "default_days_back": 1,
+    "max_days_back": 30
+  },
+  "enrichment_search": {
+    "base_url": "https://nhdeeds.com",
+    "search_type": "property_records",
+    "purpose": "data_enrichment",
+    "fields_to_enrich": [
+      "property_details",
+      "ownership_history", 
+      "mortgage_details",
+      "assessment_data"
+    ]
+  },
+  "counties": {
+    "belknap": { "name": "Belknap County", "code": "BEL" },
+    "carroll": { "name": "Carroll County", "code": "CAR" },
+    "cheshire": { "name": "Cheshire County", "code": "CHE" },
+    "coos": { "name": "Coos County", "code": "COO" },
+    "grafton": { "name": "Grafton County", "code": "GRA" },
+    "hillsborough": { "name": "Hillsborough County", "code": "HIL" },
+    "merrimack": { "name": "Merrimack County", "code": "MER" },
+    "rockingham": { "name": "Rockingham County", "code": "ROC" },
+    "strafford": { "name": "Strafford County", "code": "STR" },
+    "sullivan": { "name": "Sullivan County", "code": "SUL" }
+  }
+}

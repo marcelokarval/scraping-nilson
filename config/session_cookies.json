@@ -1,0 +1,42 @@
+[
+{
+    "domain": "www.masscourts.org",
+    "expirationDate": 1762609463.097197,
+    "hostOnly": true,
+    "httpOnly": false,
+    "name": "BNI_persistence",
+    "path": "/",
+    "sameSite": "unspecified",
+    "secure": false,
+    "session": false,
+    "storeId": "0",
+    "value": "pi-qmK1uyptNN9BoHNAWMWjQcG_KKlTacJZxrnm6dvG2hcg7xvDQUZqfzzNExZEO96-ecGRd_WVEKsYBtria9w==",
+    "id": 1
+},
+{
+    "domain": "www.masscourts.org",
+    "hostOnly": true,
+    "httpOnly": false,
+    "name": "BNIS_STCookie",
+    "path": "/eservices",
+    "sameSite": "unspecified",
+    "secure": true,
+    "session": true,
+    "storeId": "0",
+    "value": "7OIyS67Ly2Gi6YKpJ2Igr4FWeRd5S9rfzQfzlJ58sywU31B3FFpawVPgYcRTpSUoKaH6FdH4DZaRTmN6unmnDQ==",
+    "id": 2
+},
+{
+    "domain": "www.masscourts.org",
+    "hostOnly": true,
+    "httpOnly": true,
+    "name": "JSESSIONID",
+    "path": "/eservices",
+    "sameSite": "unspecified",
+    "secure": true,
+    "session": true,
+    "storeId": "0",
+    "value": "B1F475F0E13DD9A316E126DE0049B166",
+    "id": 3
+}
+]

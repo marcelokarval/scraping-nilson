@@ -1,0 +1,39 @@
+{
+  "description": "Configuração de termos e padrões para buscar documentos Probate (não altera código)",
+  "search": {
+    "match_mode": "case_insensitive_exact", 
+    "terms": [
+      "FORMAL PROBATE",
+      "FORMAL PROBATE NOTICE",
+      "PROBATE",
+      "NOTICE OF PROBATE"
+    ]
+  },
+  "paths": {
+    "base_data_dir": "data/MA/Probate",
+    "case_subpath": "{City}/cases/{CaseNumber}",
+    "pdf_filename_template": "{CaseNumber}_FORMAL_PROBATE.pdf",
+    "extracted_json_template": "{CaseNumber}_formal_probate_extracted.json",
+    "txt_filename": "formal_probate_pdf.txt",
+    "pdf_url_filename": "formal_probate_pdf_url.txt"
+  },
+  "webhook": {
+    "category": "Probate",
+    "state": "MA",
+    "default_url": "https://n8n.arthuragrelli.com/webhook/scraping",
+    "payload_keys": {
+      "category_key": "Category",
+      "status_key": "Status",
+      "state_key": "State",
+      "city_key": "City",
+      "case_number_key": "Case Number",
+      "pdf_original_key": "PDF Original",
+      "pdf_txt_key": "PDF TXT",
+      "metadata_key": "Metadata"
+    }
+  },
+  "rules": {
+    "require_pdf_and_extraction_for_new": true,
+    "mark_skipped_event": "send_skipped_no_complaint"
+  }
+}

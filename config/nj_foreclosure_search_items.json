@@ -1,0 +1,27 @@
+{
+  "search_config": {
+    "base_url": "https://press.essexregister.com/prodpress/clerk/ClerkHome.aspx?op=basic",
+    "document_type": "List Pending Foreclosure",
+    "default_days_back": 1,
+    "max_days_back": 30
+  },
+  "counties": {
+    "essex": {
+      "name": "Essex County",
+      "code": "ESX",
+      "register_url": "https://press.essexregister.com"
+    }
+  },
+  "extraction_config": {
+    "pdf_download": true,
+    "ocr_enabled": true,
+    "key_pages": [3],
+    "required_fields": [
+      "instrument_number",
+      "case_number",
+      "property_address",
+      "owner_name",
+      "filing_date"
+    ]
+  }
+}
