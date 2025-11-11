@@ -77,13 +77,20 @@ services:
         mkdir -p /app/data/MA
         mkdir -p /app/dist/data/MA
         
-        # Copiar SEMPRE os dados do Git para o volume
+                # Copiar dados do Git para volume (priorizar arquivo principal)
         if [ -f "data/MA/foreclosure_processed_cases.json" ]; then
-          echo '📥 Sincronizando casos processados do Git para volume'
+          echo '📥 Sincronizando casos processados do diretório principal (data/MA/)'
           cp data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
           cp data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
           
           CASE_COUNT_GIT=$$(grep -o '"processed_at"' data/MA/foreclosure_processed_cases.json | wc -l 2>/dev/null || echo "0")
+          echo "✅ $$CASE_COUNT_GIT casos copiados do Git para volume"
+        elif [ -f "runners/MA/data/MA/foreclosure_processed_cases.json" ]; then
+          echo '📥 Sincronizando casos processados do diretório runners (runners/MA/data/MA/)'
+          cp runners/MA/data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
+          cp runners/MA/data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
+          
+          CASE_COUNT_GIT=$$(grep -o '"processed_at"' runners/MA/data/MA/foreclosure_processed_cases.json | wc -l 2>/dev/null || echo "0")
           echo "✅ $$CASE_COUNT_GIT casos copiados do Git para volume"
         fi
         
