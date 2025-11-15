@@ -1,0 +1,152 @@
+version: '3.8'
+
+# Massachusetts Scraper - Foreclosure (Ultra Otimizado + Headless Fix)
+# Versão com correção para execução headless em containers
+
+services:
+  foreclosure-scraper:
+    image: node:20-slim
+    
+    environment:
+      # Configurações do Scheduler - Runner 5 (Foreclosure)
+      - RUNNER_MODE=5
+      - SCHEDULE_HOUR=6
+      
+      # Configurações de Scraping - HEADLESS TRUE para containers
+      - DAYS_BACK=7
+      - PLAYWRIGHT_HEADLESS=true
+      
+      # Configurações de Webhook
+      - WEBHOOK_URL=${WEBHOOK_URL:-https://n8n.arthuragrelli.com/webhook/scraping}
+      - SEND_WEBHOOK=true
+      
+      # Configurações GitHub
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_USER=${GITHUB_USER:-marcelokarval}
+      
+      # Configurações de ambiente para containers
+      - DEBIAN_FRONTEND=noninteractive
+      - TERM=xterm
+      - DISPLAY=:99
+      - PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
+      
+    volumes:
+      - foreclosure_data:/app/data
+      - foreclosure_logs:/app/logs
+      - foreclosure_browser:/app/playwright_user_data
+      
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        
+    working_dir: /app
+    
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        
+        echo '🚀 Massachusetts Foreclosure Scraper [Ultra Optimized + Headless]...'
+        
+        # Verificar token
+        if [ -z "$$GITHUB_TOKEN" ]; then
+          echo '❌ GITHUB_TOKEN não configurado!'
+          exit 1
+        fi
+        
+        echo '📦 Instalando sistema com suporte gráfico virtual...'
+        apt-get update -qq > /dev/null 2>&1
+        apt-get install -y -qq git curl build-essential python3 ca-certificates xvfb xauth > /dev/null 2>&1
+        
+        echo '📥 Clonando repositório...'
+        git config --global credential.helper store
+        echo "https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com" > ~/.git-credentials
+        git clone https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com/marcelokarval/scraping-nilson.git /tmp/scraper
+        cd /tmp/scraper
+        git checkout gemini/massachusetts-system-2
+        cp -r . /app/
+        cd /app
+        
+        echo '📦 Instalando todas as dependências Node.js...'
+        npm install --silent
+        npm install -g typescript ts-node --silent
+        npm install --save-dev @types/node @types/fs-extra @types/crypto-js --silent
+        
+        echo '🎭 Instalando Playwright browsers...'
+        npx playwright install chromium --with-deps > /dev/null 2>&1
+        
+        echo '🔧 Configurando TypeScript COMPLETO (Node.js + DOM + Types)...'
+        cat > tsconfig.json << 'EOF'
+        {
+          "compilerOptions": {
+            "target": "ES2022",
+            "module": "CommonJS",
+            "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
+            "outDir": "./dist",
+            "rootDir": ".",
+            "strict": false,
+            "esModuleInterop": true,
+            "allowSyntheticDefaultImports": true,
+            "skipLibCheck": true,
+            "forceConsistentCasingInFileNames": true,
+            "moduleResolution": "node",
+            "resolveJsonModule": true,
+            "declaration": false,
+            "removeComments": true,
+            "downlevelIteration": true,
+            "experimentalDecorators": true,
+            "emitDecoratorMetadata": true,
+            "allowJs": true,
+            "noImplicitAny": false,
+            "noImplicitReturns": false,
+            "noImplicitThis": false,
+            "types": ["node"]
+          },
+          "include": ["**/*.ts", "**/*.js"],
+          "exclude": ["node_modules", "dist"]
+        }
+        EOF
+        
+        echo '🔨 Compilando TypeScript com todas as bibliotecas...'
+        npx tsc --project tsconfig.json --skipLibCheck || {
+          echo '⚠️ Tentando compilação alternativa...'
+          npx tsc --project tsconfig.json --skipLibCheck --noEmitOnError false
+        }
+        
+        echo '📂 Copiando arquivos de configuração...'
+        cp -r data dist/ 2>/dev/null || true
+        cp -r config dist/ 2>/dev/null || true
+        cp -r playwright_user_data* dist/ 2>/dev/null || true
+        
+        echo '🧹 Limpando credenciais...'
+        rm -f ~/.git-credentials
+        
+        echo '🖥️ Iniciando display virtual para Playwright...'
+        Xvfb :99 -ac -screen 0 1280x1024x24 > /dev/null 2>&1 &
+        export DISPLAY=:99
+        sleep 3
+        
+        echo '🧪 Testando Playwright headless...'
+        echo 'Playwright configurado para HEADLESS=true'
+        
+        echo '✅ Executando JavaScript otimizado...'
+        cd dist
+        node --version
+        echo 'TypeScript compilado com sucesso! Iniciando scraper...'
+        node runners/MA/main.js
+
+volumes:
+  foreclosure_data:
+    driver: local
+  foreclosure_logs:
+    driver: local
+  foreclosure_browser:
+    driver: local

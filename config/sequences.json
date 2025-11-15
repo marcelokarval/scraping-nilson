@@ -1,0 +1,77 @@
+{
+  "sequences": [
+    {
+      "name": "probate",
+      "options": {
+        "departmentContains": "PF_DEPT",
+        "divisionIterate": true,
+        "pageSizeValue": "2",
+        "daysBack": 0,
+        "caseCd": "EA                            ",
+        "statCd": "O                             ",
+        "ptyCd": null
+      },
+      "actions": {
+        "fileTerms": ["FORMAL PROBATE", "INFORMAL PROBATE", "FORMAL PROBATE NOTICE", "PROBATE", "NOTICE OF PROBATE"],
+        "downloadSelectors": ["tr:has-text('FORMAL PROBATE') a", "tr:has-text('INFORMAL PROBATE') a", "a.dktImage", "a:has-text('Image')", "a:has-text('View')"],
+        "downloadFallbacks": ["a[href$='.pdf']", "embed", "iframe"],
+        "download": true,
+        "ocr": true,
+        "sendWebhook": true,
+        "webhookOptions": { "includePdfBase64": true }
+      }
+    },
+    {
+      "name": "pre_foreclosure",
+      "options": {
+        "departmentContains": "SC_DEPT",
+        "divisionIterate": true,
+        "pageSizeValue": "2",
+        "daysBack": 3,
+        "caseCd": "RP                            ",
+        "statCd": "O                             ",
+        "ptyCd": "DFNDT                         "
+      },
+      "actions": {
+        "fileTerms": ["COMPLAINT", "COMPLAINT PDF", "COMPLAINT (EMERGENCY)", "COMPLAINT -"] ,
+        "downloadSelectors": ["tr:has-text('COMPLAINT') a", "a.dktImage", "a:has-text('View')"],
+        "downloadFallbacks": ["a[href$='.pdf']", "embed", "iframe"],
+        "download": true,
+        "ocr": true,
+        "sendWebhook": true,
+        "webhookOptions": { "includePdfBase64": false }
+      }
+    },
+    {
+      "name": "hoa",
+      "options": {
+        "departmentContains": "SC_DEPT",
+        "divisionIterate": true,
+        "pageSizeValue": "2",
+        "daysBack": 0,
+        "caseCd": "RP                            ",
+        "statCd": "O                             ",
+        "ptyCd": null
+      },
+      "actions": {
+        "fileTerms": ["COMPLAINT", "CONDOMINIUM", "LIEN", "HOA"],
+        "downloadSelectors": ["tr:has-text('Complaint') a", "a.dktImage", "a:has-text('Image')"],
+        "downloadFallbacks": ["a[href$='.pdf']", "embed", "iframe"],
+        "download": true,
+        "ocr": true,
+        "sendWebhook": true,
+        "webhookOptions": { "includePdfBase64": false }
+      }
+    },
+    {
+      "name": "foreclosure",
+      "options": {
+        "stateFilter": "MA",
+        "enableEnrichment": true,
+        "sendWebhook": true,
+        "webhookUrl": null,
+        "headless": true
+      }
+    }
+  ]
+}

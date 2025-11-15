@@ -1,0 +1,74 @@
+{
+  "foreclosure": {
+    "webhook_suffix": "_nj",
+    "search_terms": [
+      "List Pending Foreclosure",
+      "Foreclosure"
+    ],
+    "essex_municipalities": [
+      "BELLEVILLE",
+      "BLOOMFIELD", 
+      "CALDWELL",
+      "CEDAR GROVE",
+      "EAST ORANGE",
+      "ESSEX COUNTY",
+      "ESSEX FELLS",
+      "FAIRFIELD",
+      "GLEN RIDGE",
+      "IRVINGTON",
+      "LIVINGSTON",
+      "MAPLEWOOD",
+      "MILLBURN",
+      "MONTCLAIR",
+      "NEWARK",
+      "NORTH CALDWELL",
+      "NUTLEY",
+      "ORANGE",
+      "ROSELAND",
+      "SOUTH ORANGE VILLAGE",
+      "VERONA",
+      "WEST CALDWELL",
+      "WEST ORANGE",
+      "COUNTY WIDE"
+    ],
+    "counties": [
+      "Essex County",
+      "Bergen County", 
+      "Hudson County",
+      "Passaic County",
+      "Union County",
+      "Middlesex County",
+      "Monmouth County",
+      "Ocean County",
+      "Morris County",
+      "Somerset County",
+      "Mercer County",
+      "Burlington County",
+      "Camden County",
+      "Gloucester County",
+      "Atlantic County",
+      "Cape May County",
+      "Cumberland County",
+      "Salem County",
+      "Hunterdon County",
+      "Warren County",
+      "Sussex County"
+    ]
+  },
+  "hoa": {
+    "webhook_suffix": "_nj", 
+    "search_terms": [
+      "Condominium Lien",
+      "HOA Lien",
+      "Association Lien"
+    ]
+  },
+  "probate": {
+    "webhook_suffix": "_nj",
+    "search_terms": [
+      "Will",
+      "Estate",
+      "Probate"
+    ]
+  }
+}

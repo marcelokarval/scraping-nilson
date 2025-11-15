@@ -1,0 +1,30 @@
+{
+  "foreclosure": {
+    "webhook_suffix": "_nh",
+    "search_terms": [
+      "Foreclosure",
+      "Real Property",
+      "Mortgage"
+    ],
+    "sites": {
+      "primary": "masscourts_like",
+      "enrichment": "nh_property_records"
+    }
+  },
+  "hoa": {
+    "webhook_suffix": "_nh", 
+    "search_terms": [
+      "Condominium Lien",
+      "HOA Lien",
+      "Association Lien"
+    ]
+  },
+  "probate": {
+    "webhook_suffix": "_nh",
+    "search_terms": [
+      "Will",
+      "Estate",
+      "Probate"
+    ]
+  }
+}
