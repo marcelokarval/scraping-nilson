@@ -1,0 +1,130 @@
+{
+  "credentials": {
+    "username": "arthuragrelli",
+    "password": "Vicing@1221"
+  },
+  "captcha": {
+    "useWebhook": true,
+    "webhookUrl": "https://n8n.arthuragrelli.com/webhook/465619c5-09a4-46dd-928d-df9f267010be"
+  },
+  "browser": {
+    "headless": true,
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+    "args": [
+      "--no-sandbox"
+    ]
+  },
+  "timeouts": {
+    "navigation": 30000,
+    "captchaWebhook": 120000,
+    "popupWait": 15000,
+    "networkIdle": 15000,
+    "credentialFill": 1000,
+    "afterScreenshot": 1000,
+    "afterSubmit": 1000,
+    "loginRetry": 1000,
+    "betweenActions": 120,
+    "searchSubmit": 250,
+    "pagination": 400
+  },
+  "search": {
+    "dateRange": "Today",
+    "courtType": "MG",
+    "caseType": "MF"
+  },
+  "selectors": {
+    "login": {
+      "userIdFields": [
+        "input[name=\"UserID\"]",
+        "input#ctl00_ContentPlaceHolder1_txtUserID",
+        "input[type=\"text\"]"
+      ],
+      "passwordFields": [
+        "input[name=\"Password\"]",
+        "input#ctl00_ContentPlaceHolder1_txtPassword",
+        "input[type=\"password\"]"
+      ],
+      "captchaImages": [
+        "img[src*=\"BotDetect\"]",
+        "img[id*=\"imgCaptcha\"]",
+        "img[src*=\"captcha\"]"
+      ],
+      "captchaInputs": [
+        "input#CaptchaLoginCheck",
+        "input[name=\"CaptchaLoginCheck\"]",
+        "input[name=\"captchaText\"]",
+        "input#ctl00_ContentPlaceHolder1_txtCaptcha",
+        "input[name*=\"captcha\"]",
+        "input[type=\"text\"]"
+      ],
+      "submitButtons": [
+        "#btnLoginClient",
+        "input#btnLoginClient",
+        "button:has-text(\"Login\")",
+        "input[type=\"submit\"]"
+      ],
+      "successIndicators": [
+        "li#liSignedInAsName",
+        "li:has-text(\"Signed in As\")"
+      ],
+      "successTextPatterns": [
+        "Last Login DateTime",
+        "PLEASE NOTE",
+        "Signed in As"
+      ]
+    },
+    "navigation": {
+      "caseSearchLinks": [
+        "a:has-text(\"Case Search\")",
+        "a[href*=\"CaseSearchByCaseNumber\"]"
+      ],
+      "searchByDateLinks": [
+        "a:has-text(\"Search Case Filings By Date\")",
+        "a[href*=\"CaseSearchByDate\"]"
+      ],
+      "dateRangePicker": "#reportrange",
+      "courtTypeDropdown": "#ContentPlaceHolder1_drpdwnCourtType",
+      "caseTypeDropdown": "#ContentPlaceHolder1_drpdwnCaseType",
+      "searchButton": "#ContentPlaceHolder1_btnSearch, input#ContentPlaceHolder1_btnSearch"
+    },
+    "results": {
+      "mgCaseAnchors": "#AllRecordsBase tbody tr td:nth-child(2) a[casenumber^=\"MG-\"]",
+      "genericAnchors": "a[href]",
+      "nextPageButton": [
+        "a[rel=\"next\"]",
+        "a.next",
+        "button.next",
+        "a:has-text(\"Next\")"
+      ]
+    },
+    "caseDetails": {
+      "docketNumberHeaders": [
+        "h1",
+        "h2"
+      ],
+      "docketEntriesTable": "#DocketEntries",
+      "complaintRowType": "td:nth-child(2)",
+      "documentAnchor": "a"
+    }
+  },
+  "output": {
+    "dataDir": "data/PA/cases",
+    "captchaDir": "data/PA",
+    "caseDetailFileName": "case_detail.json",
+    "complaintPdfPattern": "{docket}_complaint.pdf"
+  },
+  "monitoring": {
+    "sendWebhook": false,
+    "webhookUrl": "https://n8n.arthuragrelli.com/webhook/scraping",
+    "webhookCategory": "PA",
+    "sendPdfBase64": false,
+    "sendOn": "new"
+  },
+  "urls": {
+    "startUrl": "https://dcr.alleghenycounty.us/Civil/LoginSearch.aspx"
+  }
+}
