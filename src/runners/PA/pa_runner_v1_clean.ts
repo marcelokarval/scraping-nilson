@@ -3,10 +3,10 @@ import fs from 'fs';
 import { chromium, Browser, BrowserContext, Page, Download } from 'playwright';
 import { createCanvas, loadImage } from 'canvas';
 declare const Tesseract: any;
-import LocationPathManager from '../../utils/location_manager';
-import processedStore from '../../lib/processed_store';
+import LocationPathManager from '../../../utils/location_manager';
+import processedStore from '../../../lib/processed_store';
 import axios from 'axios';
-import { ensureExtractAndSave } from '../../services/ocr_client';
+import { ensureExtractAndSave } from '../../../services/ocr_client';
 
 const paTimestamp = () => new Date().toISOString();
 const paLog = (...args: any[]) => { console.log(`${paTimestamp()} PA:`, ...args); };

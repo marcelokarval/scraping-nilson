@@ -1,0 +1,306 @@
+version: '3.8'
+
+# ========================================
+# PENNSYLVANIA FORECLOSURE SCRAPER
+# ========================================
+# Stack Portainer para scraping automatizado de casos de Foreclosure na Pennsylvania
+# Estrutura: src/runners/PA/
+# Branch: main (merge já realizado em 22/11/2025)
+
+services:
+  pa-foreclosure-scraper:
+    image: node:20-alpine
+    
+    environment:
+      # Credenciais PA Court
+      - PA_USER=${PA_USER}
+      - PA_PASS=${PA_PASS}
+      
+      # Webhook Captcha
+      - PA_USE_WEBHOOK=true
+      - PA_CAPTCHA_WEBHOOK=${PA_CAPTCHA_WEBHOOK:-https://n8n.arthuragrelli.com/webhook/captcha-solver}
+      
+      # Webhook de dados
+      - WEBHOOK_URL=${WEBHOOK_URL:-https://n8n.arthuragrelli.com/webhook/scraping}
+      
+      # Configuração do Node
+      - NODE_OPTIONS=--max-old-space-size=8192 --expose-gc
+      
+      # Timezone
+      - TZ=America/Sao_Paulo
+      
+      # GitHub Token (obrigatório para clone)
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_USER=${GITHUB_USER:-marcelokarval}
+      
+      # Modo de execução
+      - RUNNER_MODE=pa-foreclosure
+      - CRON_SCHEDULE=${CRON_SCHEDULE:-0 9 * * *}  # Padrão: 9h todos os dias
+      
+      # Playwright
+      - PLAYWRIGHT_HEADLESS=true
+      
+      # Configurações de ambiente (estilo MA)
+      - TERM=xterm
+      
+    volumes:
+      # Dados persistentes (casos processados, PDFs, logs)
+      - pa_foreclosure_data:/app/data
+      
+      # Logs de processamento
+      - pa_foreclosure_logs:/app/logs
+      
+      # Config persistente (caso precise ajustar sem rebuild)
+      - pa_foreclosure_config:/app/config
+      
+      # Playwright user data (sessões de browser)
+      - pa_foreclosure_browser:/app/playwright_user_data
+      
+      # Código fonte (persistir entre restarts)
+      - pa_foreclosure_code:/app
+      
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 3G
+      labels:
+        - "com.docker.stack.namespace=scraping"
+        - "scraping.service=pa-foreclosure"
+    
+    working_dir: /app
+        
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        
+        echo "========================================"
+        echo "🏛️ Pennsylvania Foreclosure Scraper"
+        echo "========================================"
+        
+        # Verificar token GitHub
+        if [ -z "$GITHUB_TOKEN" ]; then
+          echo "❌ GITHUB_TOKEN não configurado!"
+          exit 1
+        fi
+        
+        echo "📦 Instalando dependências do sistema..."
+        apk add --no-cache git bash chromium chromium-chromedriver python3 make g++ cairo-dev pango-dev jpeg-dev giflib-dev
+        echo "✅ Dependências do sistema instaladas"
+        
+        echo "📥 Sincronizando código do repositório..."
+        git config --global credential.helper store
+        echo "https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com" > ~/.git-credentials
+        
+        # Se já existe código, fazer pull. Senão, clone
+        if [ -d "/app/.git" ]; then
+          echo "🔄 Código já existe - fazendo git pull..."
+          cd /app
+          git fetch origin
+          git reset --hard origin/main
+          echo "✅ Código atualizado via git pull"
+        else
+          echo "📦 Primeira execução - clonando repositório..."
+          git clone https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com/marcelokarval/scraping-nilson.git /tmp/scraper
+          cd /tmp/scraper
+          git checkout main
+          cp -r . /app/
+          cd /app
+          echo "✅ Repositório clonado"
+        fi
+        
+        echo "📦 Instalando dependências Node.js..."
+        npm install
+        echo "✅ Dependências Node.js instaladas"
+        
+        # Verificar se é primeira execução (copiar config se não existir)
+        if [ ! -f /app/config/pa_config.json ]; then
+          echo "⚠️  Config não encontrado, criando config padrão..."
+          mkdir -p /app/config
+          cat > /app/config/pa_config.json <<'CONFIGEOF'
+        {
+          "credentials": {
+            "username": "${PA_USER}",
+            "password": "${PA_PASS}"
+          },
+          "captcha": {
+            "useWebhook": true,
+            "webhookUrl": "${PA_CAPTCHA_WEBHOOK}"
+          },
+          "browser": {
+            "headless": true,
+            "viewport": { "width": 1280, "height": 900 },
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "args": ["--no-sandbox", "--disable-setuid-sandbox"]
+          },
+          "timeouts": {
+            "navigation": 30000,
+            "captchaWebhook": 120000,
+            "credentialFill": 1000,
+            "afterScreenshot": 1000,
+            "afterSubmit": 1000,
+            "loginRetry": 1000
+          },
+          "search": {
+            "dateRange": "Today",
+            "courtType": "MG",
+            "caseType": "MF"
+          },
+          "output": {
+            "dataDir": "data/PA/cases",
+            "captchaDir": "data/PA",
+            "caseDetailFileName": "case_detail.json",
+            "complaintPdfPattern": "{docket}_COMPLAINT.pdf"
+          }
+        }
+        CONFIGEOF
+        fi
+        
+        # Criar estrutura de diretórios
+        mkdir -p /app/data/PA/Foreclosure/cases
+        mkdir -p /app/logs
+        
+        echo "💾 Sincronizando dados processados (estratégia inteligente)..."
+        
+        # Contadores de casos
+        GIT_CASES=0
+        VOLUME_CASES=0
+        
+        # Verificar casos no Git
+        if [ -f "data/PA/Foreclosure/foreclosure_processed_cases.json" ]; then
+          GIT_CASES=`grep -c '"processed_at"' data/PA/Foreclosure/foreclosure_processed_cases.json 2>/dev/null || echo "0"`
+          echo "📂 Git (principal): $GIT_CASES casos processados historicamente"
+        elif [ -f "src/runners/PA/data/PA/Foreclosure/foreclosure_processed_cases.json" ]; then
+          GIT_CASES=`grep -c '"processed_at"' src/runners/PA/data/PA/Foreclosure/foreclosure_processed_cases.json 2>/dev/null || echo "0"`
+          echo "📂 Git (src/runners): $GIT_CASES casos processados historicamente"
+        fi
+        
+        # Verificar casos no Volume
+        if [ -f "/app/data/PA/Foreclosure/foreclosure_processed_cases.json" ]; then
+          VOLUME_CASES=`grep -c '"processed_at"' /app/data/PA/Foreclosure/foreclosure_processed_cases.json 2>/dev/null || echo "0"`
+          echo "💾 Volume: $VOLUME_CASES casos processados historicamente"
+        fi
+        
+        # DECISÃO INTELIGENTE: Usar a fonte com mais dados
+        if [ "$GIT_CASES" -gt "$VOLUME_CASES" ]; then
+          echo "📥 Git tem mais dados - copiando do Git para Volume"
+          if [ -f "data/PA/Foreclosure/foreclosure_processed_cases.json" ]; then
+            echo "📁 Copiando do diretório principal: data/PA/Foreclosure/"
+            cp data/PA/Foreclosure/*_processed_cases.json /app/data/PA/Foreclosure/ 2>/dev/null || true
+            cp data/PA/Foreclosure/*_failed_cases*.json /app/data/PA/Foreclosure/ 2>/dev/null || true
+          elif [ -f "src/runners/PA/data/PA/Foreclosure/foreclosure_processed_cases.json" ]; then
+            echo "📁 Copiando do diretório src/runners: src/runners/PA/data/PA/Foreclosure/"
+            cp src/runners/PA/data/PA/Foreclosure/*_processed_cases.json /app/data/PA/Foreclosure/ 2>/dev/null || true
+            cp src/runners/PA/data/PA/Foreclosure/*_failed_cases*.json /app/data/PA/Foreclosure/ 2>/dev/null || true
+          fi
+        elif [ "$VOLUME_CASES" -gt 0 ]; then
+          echo "💾 Volume já tem dados - mantendo Volume"
+        else
+          echo "🆕 Primeira execução - copiando dados iniciais do Git"
+          if [ -f "data/PA/Foreclosure/foreclosure_processed_cases.json" ]; then
+            cp data/PA/Foreclosure/*_processed_cases.json /app/data/PA/Foreclosure/ 2>/dev/null || true
+            cp data/PA/Foreclosure/*_failed_cases*.json /app/data/PA/Foreclosure/ 2>/dev/null || true
+          elif [ -f "src/runners/PA/data/PA/Foreclosure/foreclosure_processed_cases.json" ]; then
+            cp src/runners/PA/data/PA/Foreclosure/*_processed_cases.json /app/data/PA/Foreclosure/ 2>/dev/null || true
+            cp src/runners/PA/data/PA/Foreclosure/*_failed_cases*.json /app/data/PA/Foreclosure/ 2>/dev/null || true
+          fi
+        fi
+        
+        # CRÍTICO: Criar link simbólico como failsafe
+        ln -sf /app/data /app/src/data 2>/dev/null || true
+        echo "🔗 Link simbólico criado: /app/src/data -> /app/data"
+        
+        # Função para executar o scraping
+        run_scraping() {
+          LOGDATE=`date +%Y%m%d`
+          echo ""
+          echo "🚀 Iniciando scraping PA - `date`"
+          echo "================================================"
+          
+          # Verificar status dos dados
+          echo "🔍 Status dos dados processados:"
+          if [ -f "/app/data/PA/Foreclosure/foreclosure_processed_cases.json" ]; then
+            CURRENT_CASES=`grep -c '"processed_at"' /app/data/PA/Foreclosure/foreclosure_processed_cases.json 2>/dev/null || echo "0"`
+            echo "✅ $CURRENT_CASES casos já processados (evitará duplicatas)"
+          else
+            echo "❌ Nenhum caso processado encontrado (primeira execução)"
+          fi
+          echo ""
+          
+          # Executar com proteção de memória
+          cd /app
+          NODE_OPTIONS="--max-old-space-size=8192 --expose-gc" npx tsx src/runners/PA/executor.ts 2>&1 | tee -a /app/logs/pa_scraping_$LOGDATE.log
+          
+          echo "================================================"
+          echo "✅ Scraping finalizado - `date`"
+          echo ""
+        }
+        
+        # Verificar modo de execução
+        if [ "${RUNNER_MODE}" = "pa-foreclosure" ]; then
+          # Modo CRON (padrão)
+          echo "📅 Configurando execução em CRON: ${CRON_SCHEDULE:-0 9 * * *}"
+          
+          # Criar script de cron
+          cat > /tmp/cron_script.sh <<'CRONEOF'
+        #!/bin/sh
+        run_scraping() {
+          LOGDATE=`date +%Y%m%d`
+          echo ""
+          echo "🚀 Iniciando scraping PA - `date`"
+          echo "================================================"
+          
+          echo "🔍 Status dos dados processados:"
+          if [ -f "/app/data/PA/Foreclosure/foreclosure_processed_cases.json" ]; then
+            CURRENT_CASES=`grep -c '"processed_at"' /app/data/PA/Foreclosure/foreclosure_processed_cases.json 2>/dev/null || echo "0"`
+            echo "✅ $CURRENT_CASES casos já processados"
+          else
+            echo "❌ Primeira execução"
+          fi
+          echo ""
+          
+          cd /app
+          NODE_OPTIONS="--max-old-space-size=8192 --expose-gc" npx tsx src/runners/PA/executor.ts 2>&1 | tee -a /app/logs/pa_scraping_$LOGDATE.log
+          
+          echo "================================================"
+          echo "✅ Scraping finalizado - `date`"
+        }
+
+        run_scraping
+        CRONEOF
+          
+          chmod +x /tmp/cron_script.sh
+          echo "${CRON_SCHEDULE:-0 9 * * *} /tmp/cron_script.sh" > /etc/crontabs/root
+          
+          # Executar imediatamente na primeira vez
+          echo "🔄 Executando primeira vez (inicialização)..."
+          run_scraping
+          
+          # Iniciar crond
+          echo "⏰ Iniciando crond em modo daemon..."
+          crond -f -l 2
+        else
+          # Modo ONE-SHOT
+          echo "🎯 Modo ONE-SHOT: Executando uma vez e encerrando"
+          run_scraping
+          echo "✅ Execução finalizada com sucesso"
+        fi
+
+volumes:
+  pa_foreclosure_data:
+    driver: local
+  pa_foreclosure_logs:
+    driver: local
+  pa_foreclosure_config:
+    driver: local
+  pa_foreclosure_browser:
+    driver: local
+  pa_foreclosure_code:
+    driver: local

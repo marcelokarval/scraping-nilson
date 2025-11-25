@@ -1,0 +1,261 @@
+version: '3.8'
+
+# ========================================
+# MASSACHUSETTS FORECLOSURE SCRAPER
+# ========================================
+# Stack Portainer para scraping automatizado de casos de Foreclosure em Massachusetts
+# Atualizado para nova estrutura: src/runners/MA/
+# Branch: main
+
+services:
+  ma-foreclosure-scraper:
+    image: node:20-slim
+    
+    environment:
+      # Configurações do Scheduler - Runner 5 (Foreclosure)
+      - RUNNER_MODE=5
+      - SCHEDULE_HOUR=6
+      
+      # Configurações de Scraping
+      - DAYS_BACK=7
+      - PLAYWRIGHT_HEADLESS=true
+      
+      # Configurações de Webhook
+      - WEBHOOK_URL=${WEBHOOK_URL:-https://n8n.arthuragrelli.com/webhook/scraping}
+      - SEND_WEBHOOK=true
+      
+      # Configurações GitHub
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_USER=${GITHUB_USER:-marcelokarval}
+      
+      # Configurações de ambiente para evitar warnings
+      - DEBIAN_FRONTEND=noninteractive
+      - TERM=xterm
+      
+      # Configurações Playwright para containers
+      - DISPLAY=:99
+      - PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
+      
+    volumes:
+      - ma_foreclosure_data:/app/data
+      - ma_foreclosure_logs:/app/logs
+      - ma_foreclosure_browser:/app/playwright_user_data
+      - ma_foreclosure_code:/app
+      
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+      labels:
+        - "com.docker.stack.namespace=scraping"
+        - "scraping.service=ma-foreclosure"
+        
+    working_dir: /app
+    
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        
+        echo '🏛️ Massachusetts Foreclosure Scraper'
+        echo '================================================'
+        
+        # Verificar token
+        if [ -z "$$GITHUB_TOKEN" ]; then
+          echo '❌ GITHUB_TOKEN não configurado!'
+          exit 1
+        fi
+        
+        echo '📦 Instalando sistema (modo silencioso)...'
+        apt-get update -qq > /dev/null 2>&1
+        apt-get install -y -qq git curl build-essential python3 ca-certificates xvfb > /dev/null 2>&1
+        
+        echo '📥 Sincronizando código do repositório...'
+        git config --global credential.helper store
+        echo "https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com" > ~/.git-credentials
+        
+        # Se já existe código, fazer pull. Senão, clone
+        if [ -d "/app/.git" ]; then
+          echo '🔄 Código já existe - fazendo git pull...'
+          cd /app
+          git fetch origin
+          git reset --hard origin/main
+          echo '✅ Código atualizado via git pull'
+        else
+          echo '📦 Primeira execução - clonando repositório...'
+          git clone https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com/marcelokarval/scraping-nilson.git /tmp/scraper
+          cd /tmp/scraper
+          git checkout main
+          cp -r . /app/
+          cd /app
+          echo '✅ Repositório clonado'
+        fi
+        
+        echo '📦 Instalando todas as dependências Node.js...'
+        npm install --silent
+        npm install -g typescript ts-node --silent
+        npm install --save-dev @types/node @types/fs-extra @types/crypto-js --silent
+        
+        echo '🎭 Instalando Playwright browsers...'
+        npx playwright install chromium --with-deps > /dev/null 2>&1
+        
+        echo '🔧 Configurando TypeScript COMPLETO (Node.js + DOM + Types)...'
+        cat > tsconfig.json << 'EOF'
+        {
+          "compilerOptions": {
+            "target": "ES2022",
+            "module": "CommonJS",
+            "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
+            "outDir": "./dist",
+            "rootDir": ".",
+            "strict": false,
+            "esModuleInterop": true,
+            "allowSyntheticDefaultImports": true,
+            "skipLibCheck": true,
+            "forceConsistentCasingInFileNames": true,
+            "moduleResolution": "node",
+            "resolveJsonModule": true,
+            "declaration": false,
+            "removeComments": true,
+            "downlevelIteration": true,
+            "experimentalDecorators": true,
+            "emitDecoratorMetadata": true,
+            "allowJs": true,
+            "noImplicitAny": false,
+            "noImplicitReturns": false,
+            "noImplicitThis": false,
+            "types": ["node"]
+          },
+          "include": ["**/*.ts", "**/*.js"],
+          "exclude": ["node_modules", "dist"]
+        }
+        EOF
+        
+        echo '🔨 Compilando TypeScript com todas as bibliotecas...'
+        npx tsc --project tsconfig.json --skipLibCheck || {
+          echo '⚠️ Tentando compilação alternativa...'
+          npx tsc --project tsconfig.json --skipLibCheck --noEmitOnError false
+        }
+        
+        echo '📂 Copiando arquivos de configuração...'
+        cp -r data dist/ 2>/dev/null || true
+        cp -r config dist/ 2>/dev/null || true
+        cp -r playwright_user_data* dist/ 2>/dev/null || true
+        
+        echo '💾 Sincronizando dados processados (estratégia inteligente)...'
+        # Garantir que diretórios existam
+        mkdir -p /app/data/MA
+        mkdir -p /app/dist/data/MA
+        
+        # ESTRATÉGIA INTELIGENTE: Merge de dados Git + Volume
+        echo '🔄 Estratégia de sincronização inteligente:'
+        
+        GIT_CASES=0
+        VOLUME_CASES=0
+        
+        # Contar casos no Git (verificar nova estrutura src/runners/MA/ primeiro)
+        if [ -f "src/runners/MA/data/MA/foreclosure_processed_cases.json" ]; then
+          GIT_CASES=$$(grep -c '"processed_at"' src/runners/MA/data/MA/foreclosure_processed_cases.json 2>/dev/null || echo "0")
+          echo "📂 Git (src/runners): $$GIT_CASES casos processados historicamente"
+        elif [ -f "data/MA/foreclosure_processed_cases.json" ]; then
+          GIT_CASES=$$(grep -c '"processed_at"' data/MA/foreclosure_processed_cases.json 2>/dev/null || echo "0")
+          echo "📂 Git (data): $$GIT_CASES casos processados historicamente"
+        elif [ -f "runners/MA/data/MA/foreclosure_processed_cases.json" ]; then
+          GIT_CASES=$$(grep -c '"processed_at"' runners/MA/data/MA/foreclosure_processed_cases.json 2>/dev/null || echo "0")
+          echo "📂 Git (antiga estrutura): $$GIT_CASES casos processados historicamente"
+        fi
+        
+        # Contar casos no Volume
+        if [ -f "/app/data/MA/foreclosure_processed_cases.json" ]; then
+          VOLUME_CASES=$$(grep -c '"processed_at"' /app/data/MA/foreclosure_processed_cases.json 2>/dev/null || echo "0")
+          echo "💾 Volume: $$VOLUME_CASES casos processados historicamente"
+        fi
+        
+        # DECISÃO INTELIGENTE: Usar a fonte com mais dados
+        if [ $$GIT_CASES -gt $$VOLUME_CASES ]; then
+          echo "📥 Git tem mais dados ($$GIT_CASES > $$VOLUME_CASES) - copiando do Git para Volume"
+          # Priorizar nova estrutura src/runners/MA/data/ primeiro
+          if [ -f "src/runners/MA/data/MA/foreclosure_processed_cases.json" ]; then
+            echo "📁 Copiando da nova estrutura: src/runners/MA/data/MA/"
+            cp src/runners/MA/data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
+            cp src/runners/MA/data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
+          elif [ -f "data/MA/foreclosure_processed_cases.json" ]; then
+            echo "📁 Copiando do diretório data: data/MA/"
+            cp data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
+            cp data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
+          elif [ -f "runners/MA/data/MA/foreclosure_processed_cases.json" ]; then
+            echo "📁 Copiando da estrutura antiga: runners/MA/data/MA/"
+            cp runners/MA/data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
+            cp runners/MA/data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
+          fi
+        elif [ $$VOLUME_CASES -gt 0 ]; then
+          echo "💾 Volume já tem dados mais atualizados ($$VOLUME_CASES casos) - mantendo Volume"
+        else
+          echo "🆕 Primeira execução - copiando dados iniciais do Git"
+          # Priorizar nova estrutura src/runners/MA/data/ primeiro
+          if [ -f "src/runners/MA/data/MA/foreclosure_processed_cases.json" ]; then
+            cp src/runners/MA/data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
+            cp src/runners/MA/data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
+          elif [ -f "data/MA/foreclosure_processed_cases.json" ]; then
+            cp data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
+            cp data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
+          elif [ -f "runners/MA/data/MA/foreclosure_processed_cases.json" ]; then
+            cp runners/MA/data/MA/*_processed_cases.json /app/data/MA/ 2>/dev/null || true
+            cp runners/MA/data/MA/*_failed_cases*.json /app/data/MA/ 2>/dev/null || true
+          fi
+        fi
+        
+        # CRÍTICO: Sempre criar link simbólico
+        ln -sf /app/data /app/dist/data
+        echo "🔗 Link simbólico criado: /app/dist/data -> /app/data"
+        
+        echo '🧹 Limpando credenciais...'
+        rm -f ~/.git-credentials
+        
+        echo '🖥️ Iniciando display virtual para Playwright...'
+        Xvfb :99 -ac -screen 0 1280x1024x24 > /dev/null 2>&1 &
+        sleep 2
+        
+        echo '🔍 Verificando status dos dados processados...'
+        echo "Status do arquivo de casos processados:"
+        echo "Volume: /app/data/MA/foreclosure_processed_cases.json"
+        echo "Dist:   /app/dist/data/MA/foreclosure_processed_cases.json"
+        
+        if [ -f "/app/data/MA/foreclosure_processed_cases.json" ]; then
+          ls -la /app/data/MA/foreclosure_processed_cases.json
+          CASE_COUNT=$$(grep -c '"processed_at"' /app/data/MA/foreclosure_processed_cases.json 2>/dev/null || echo "0")
+          echo "✅ $$CASE_COUNT casos já processados encontrados no VOLUME (histórico acumulado)"
+        else
+          echo "❌ Arquivo não existe no volume"
+        fi
+        
+        if [ -f "/app/dist/data/MA/foreclosure_processed_cases.json" ]; then
+          CASE_COUNT_DIST=$$(grep -c '"processed_at"' /app/dist/data/MA/foreclosure_processed_cases.json 2>/dev/null || echo "0")
+          echo "✅ $$CASE_COUNT_DIST casos acessíveis pelo sistema (DIST) - evitará duplicatas"
+        else
+          echo "❌ Sistema não consegue acessar casos processados (DIST)"
+        fi
+        
+        echo '================================================'
+        echo '✅ Executando JavaScript otimizado...'
+        cd dist
+        node --version
+        echo 'TypeScript compilado com sucesso! Iniciando scraper...'
+        node src/runners/MA/main.js
+
+volumes:
+  ma_foreclosure_data:
+    driver: local
+  ma_foreclosure_logs:
+    driver: local
+  ma_foreclosure_browser:
+    driver: local
+  ma_foreclosure_code:
+    driver: local

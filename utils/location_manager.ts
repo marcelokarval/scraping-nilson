@@ -21,6 +21,11 @@ export const LOCATIONS: Record<string, LocationConfig> = {
     code: 'NH',
     name: 'New Hampshire',
     dataDir: 'NH'
+  },
+  PA: {
+    code: 'PA',
+    name: 'Pennsylvania',
+    dataDir: 'PA'
   }
   // Futuros estados podem ser adicionados aqui
   // NY: {
