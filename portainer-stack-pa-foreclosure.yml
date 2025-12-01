@@ -34,8 +34,8 @@ services:
       - GITHUB_USER=${GITHUB_USER:-marcelokarval}
       
       # Modo de execução
-      - RUNNER_MODE=pa-foreclosure
-      - CRON_SCHEDULE=${CRON_SCHEDULE:-0 9 * * *}  # Padrão: 9h todos os dias
+      - RUNNER_MODE=${RUNNER_MODE:-pa-foreclosure}
+      - CRON_SCHEDULE=${CRON_SCHEDULE:-0 5 * * *}  # Padrão: 5h todos os dias
       
       # Playwright
       - PLAYWRIGHT_HEADLESS=true
@@ -105,7 +105,8 @@ services:
           cd /app
           git fetch origin
           git reset --hard origin/main
-          echo "✅ Código atualizado via git pull"
+          git pull origin main
+          echo "✅ Código atualizado via git pull (commit: `git rev-parse --short HEAD`)"
         else
           echo "📦 Primeira execução - clonando repositório..."
           git clone https://$$GITHUB_USER:$$GITHUB_TOKEN@github.com/marcelokarval/scraping-nilson.git /tmp/scraper
@@ -113,12 +114,16 @@ services:
           git checkout main
           cp -r . /app/
           cd /app
-          echo "✅ Repositório clonado"
+          echo "✅ Repositório clonado (commit: `git rev-parse --short HEAD`)"
         fi
         
         echo "📦 Instalando dependências Node.js..."
         npm install
         echo "✅ Dependências Node.js instaladas"
+        
+        echo "🎭 Instalando Playwright browsers..."
+        npx playwright install chromium
+        echo "✅ Playwright chromium instalado"
         
         # Verificar se é primeira execução (copiar config se não existir)
         if [ ! -f /app/config/pa_config.json ]; then
@@ -244,9 +249,9 @@ services:
         }
         
         # Verificar modo de execução
-        if [ "${RUNNER_MODE}" = "pa-foreclosure" ]; then
+        if [ "${RUNNER_MODE}" = "pa-foreclosure" ] || [ -z "${RUNNER_MODE}" ]; then
           # Modo CRON (padrão)
-          echo "📅 Configurando execução em CRON: ${CRON_SCHEDULE:-0 9 * * *}"
+          echo "📅 Configurando execução em CRON: ${CRON_SCHEDULE:-0 5 * * *}"
           
           # Criar script de cron
           cat > /tmp/cron_script.sh <<'CRONEOF'

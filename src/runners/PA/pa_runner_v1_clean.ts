@@ -118,7 +118,8 @@ export default class PARunnerV1 {
     this.processedPath = this.locationManager.getProcessedCasesPath('foreclosure');
     
     // Load config
-    const defaultConfigPath = path.join(process.cwd(), 'config', 'pa_config.json');
+    const projectRoot = path.join(__dirname, '..', '..', '..');
+    const defaultConfigPath = path.join(projectRoot, 'config', 'pa_config.json');
     const cfgPath = configPath || defaultConfigPath;
     try {
       const configData = fs.readFileSync(cfgPath, 'utf8');
@@ -211,13 +212,42 @@ export default class PARunnerV1 {
 
     while (true) {
       try {
+        paLog('attempting to fill credentials - username:', user);
         const u = await this.findFirstSelector(page, userSelectors);
         const p = await this.findFirstSelector(page, passSelectors);
-        if (u) { try { await u.el.fill(user); } catch (e) {} }
+        
+        if (u) { 
+          paLog('found username field:', u.sel);
+          try { 
+            await u.el.fill('');
+            await u.el.fill(user);
+            const value = await u.el.inputValue();
+            paLog('username field filled, value length:', value.length);
+          } catch (e) { 
+            paError('failed to fill username:', e);
+          }
+        } else {
+          paWarn('username field not found with selectors:', userSelectors);
+        }
+        
         await page.waitForTimeout(credentialWait);
-        if (p) { try { await p.el.fill(pass); } catch (e) {} }
+        
+        if (p) { 
+          paLog('found password field:', p.sel);
+          try { 
+            await p.el.fill('');
+            await p.el.fill(pass);
+            const value = await p.el.inputValue();
+            paLog('password field filled, value length:', value.length);
+          } catch (e) { 
+            paError('failed to fill password:', e);
+          }
+        } else {
+          paWarn('password field not found with selectors:', passSelectors);
+        }
+        
         await page.waitForTimeout(credentialWait);
-      } catch (e) { paWarn('fill credentials failed', e); }
+      } catch (e) { paError('fill credentials failed', e); }
 
       const captchaEl = (await this.findFirstSelector(page, captchaSelectors))?.el;
       if (captchaEl && this.useCaptchaWebhook && this.captchaWebhook) {
@@ -702,7 +732,7 @@ export default class PARunnerV1 {
           // Verificar se caso já foi processado ANTES de abrir popup
           if (caseNumber) {
             const isProcessed = await processedStore.isProcessed(caseNumber);
-            const entry = processedStore.getEntry(caseNumber);
+            const entry = processedStore.data[processedStore.normalizeKey(caseNumber)] as any;
             
             // MODO UPDATE: Se dateRange = "Today", sempre reprocessar casos já existentes
             if (this.isUpdateMode && isProcessed && entry) {
@@ -974,7 +1004,7 @@ export default class PARunnerV1 {
                 case_detail_exists: true,
                 case_detail_path: path.join(caseDir, 'case_detail.json'),
                 last_updated: new Date().toISOString()
-              });
+              } as any);
               paLog('✓ marked case as processed:', item.caseNumber);
             }
             
@@ -1149,7 +1179,7 @@ export default class PARunnerV1 {
           
           // Atualizar processed store com download bem-sucedido
           try {
-            const entry = processedStore.getEntry(caseNumber);
+            const entry = processedStore.data[processedStore.normalizeKey(caseNumber)] as any;
             if (entry) {
               await processedStore.markProcessed(caseNumber, {
                 ...entry,
@@ -1158,7 +1188,7 @@ export default class PARunnerV1 {
                 pdf_path: pdfPath,
                 pdf_size: fileSize,
                 last_updated: new Date().toISOString()
-              });
+              } as any);
             }
           } catch (storeError) {
             paWarn('  failed to update processed store:', storeError);
@@ -1170,7 +1200,7 @@ export default class PARunnerV1 {
           
           // Mapear erro de download no processed store
           try {
-            const entry = processedStore.getEntry(caseNumber);
+            const entry = processedStore.data[processedStore.normalizeKey(caseNumber)] as any;
             if (entry) {
               await processedStore.markProcessed(caseNumber, {
                 ...entry,
@@ -1178,7 +1208,7 @@ export default class PARunnerV1 {
                 pdf_download_error: downloadError.message,
                 pdf_download_error_at: new Date().toISOString(),
                 last_updated: new Date().toISOString()
-              });
+              } as any);
             }
           } catch (storeError) {
             paWarn('  failed to update processed store:', storeError);
@@ -1255,7 +1285,7 @@ export default class PARunnerV1 {
         
         // Atualizar processed store com extração bem-sucedida
         try {
-          const entry = processedStore.getEntry(caseDir);
+          const entry = processedStore.data[processedStore.normalizeKey(caseDir)] as any;
           if (entry) {
             const txtSize = fs.existsSync(txtPath) ? fs.statSync(txtPath).size : 0;
             await processedStore.markProcessed(caseDir, {
@@ -1265,7 +1295,7 @@ export default class PARunnerV1 {
               txt_path: txtPath,
               txt_size: txtSize,
               last_updated: new Date().toISOString()
-            });
+            } as any);
           }
         } catch (storeError) {
           paWarn('  failed to update processed store:', storeError);
@@ -1278,7 +1308,7 @@ export default class PARunnerV1 {
         
         // Mapear erro de extração no processed store
         try {
-          const entry = processedStore.getEntry(caseDir);
+          const entry = processedStore.data[processedStore.normalizeKey(caseDir)] as any;
           if (entry) {
             await processedStore.markProcessed(caseDir, {
               ...entry,
@@ -1286,7 +1316,7 @@ export default class PARunnerV1 {
               txt_extraction_error: errorMsg,
               txt_extraction_error_at: new Date().toISOString(),
               last_updated: new Date().toISOString()
-            });
+            } as any);
           }
         } catch (storeError) {
           paWarn('  failed to update processed store:', storeError);
@@ -1355,7 +1385,7 @@ export default class PARunnerV1 {
         const caseDetail = JSON.parse(fs.readFileSync(caseDetailPath, 'utf8'));
         
         // Verificar se já foi enviado antes
-        const entry = processedStore.getEntry(caseNumber);
+        const entry = processedStore.data[processedStore.normalizeKey(caseNumber)] as any;
         const alreadySent = entry && entry.webhook_sent;
         const sendType = alreadySent ? 'update' : 'new';
         
@@ -1395,7 +1425,7 @@ export default class PARunnerV1 {
         
         // Construir payload base
         const payload: any = {
-          Categoria: 'Foreclosure',
+          Categoria: 'Pre-Foreclosure',
           Status: sendType === 'new' ? 'Novo Case' : 'Update Case',
           Estado: 'PA',
           Cidade: this.extractCity(caseDetail),
@@ -1460,7 +1490,7 @@ export default class PARunnerV1 {
               webhook_sent_at: new Date().toISOString(),
               webhook_error: null, // Limpar erro anterior se existir
               last_updated: new Date().toISOString()
-            });
+            } as any);
           }
         } catch (e) {
           const errorMsg = e && e.message ? e.message : String(e);
@@ -1475,7 +1505,7 @@ export default class PARunnerV1 {
               webhook_error: errorMsg,
               webhook_error_at: new Date().toISOString(),
               last_updated: new Date().toISOString()
-            });
+            } as any);
           }
         }
       
@@ -2752,14 +2782,14 @@ export default class PARunnerV1 {
           // Atualizar processed store com flag enrichment_done
           const caseNumber = path.basename(casePath);
           try {
-            const entry = processedStore.getEntry(caseNumber);
+            const entry = processedStore.data[processedStore.normalizeKey(caseNumber)] as any;
             if (entry) {
               await processedStore.markProcessed(caseNumber, {
                 ...entry,
                 enrichment_done: true,
                 enrichment_date: new Date().toISOString(),
                 last_updated: new Date().toISOString()
-              });
+              } as any);
               paLog('✓ updated processed store with enrichment flag:', caseNumber);
             }
           } catch (e) {
