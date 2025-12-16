@@ -11,6 +11,90 @@
       "caseNumber": "2572CV00459",
       "city": "Barnstable",
       "source": "pre_foreclosure"
+    },
+    "2572cv00511": {
+      "processed_at": "2025-12-03T20:59:30.877Z",
+      "caseNumber": "2572CV00511",
+      "city": "Barnstable",
+      "source": "pre_foreclosure"
+    },
+    "2572cv00512": {
+      "processed_at": "2025-12-03T21:00:04.689Z",
+      "caseNumber": "2572CV00512",
+      "city": "Barnstable",
+      "source": "pre_foreclosure"
+    },
+    "2572cv00513": {
+      "processed_at": "2025-12-03T21:00:38.306Z",
+      "caseNumber": "2572CV00513",
+      "city": "Barnstable",
+      "source": "pre_foreclosure"
+    },
+    "2573cv00951": {
+      "processed_at": "2025-12-03T21:01:27.689Z",
+      "caseNumber": "2573CV00951",
+      "city": "Bristol",
+      "source": "pre_foreclosure"
+    },
+    "2581cv02967": {
+      "processed_at": "2025-12-03T21:02:46.081Z",
+      "caseNumber": "2581CV02967",
+      "city": "Middlesex",
+      "source": "pre_foreclosure"
+    },
+    "2581cv02990": {
+      "processed_at": "2025-12-03T21:03:19.709Z",
+      "caseNumber": "2581CV02990",
+      "city": "Middlesex",
+      "source": "pre_foreclosure"
+    },
+    "2582cv01341": {
+      "processed_at": "2025-12-03T21:04:09.149Z",
+      "caseNumber": "2582CV01341",
+      "city": "Norfolk",
+      "source": "pre_foreclosure"
+    },
+    "2583cv01109": {
+      "processed_at": "2025-12-03T21:04:50.300Z",
+      "caseNumber": "2583CV01109",
+      "city": "Plymouth",
+      "source": "pre_foreclosure"
+    },
+    "2583cv01112": {
+      "processed_at": "2025-12-03T21:05:24.948Z",
+      "caseNumber": "2583CV01112",
+      "city": "Plymouth",
+      "source": "pre_foreclosure"
+    },
+    "2583cv01118": {
+      "processed_at": "2025-12-03T21:05:59.798Z",
+      "caseNumber": "2583CV01118",
+      "city": "Plymouth",
+      "source": "pre_foreclosure"
+    },
+    "2583cv01119": {
+      "processed_at": "2025-12-03T21:06:33.688Z",
+      "caseNumber": "2583CV01119",
+      "city": "Plymouth",
+      "source": "pre_foreclosure"
+    },
+    "2584cv03337": {
+      "processed_at": "2025-12-03T21:07:14.714Z",
+      "caseNumber": "2584CV03337",
+      "city": "Suffolk",
+      "source": "pre_foreclosure"
+    },
+    "2585cv01668": {
+      "processed_at": "2025-12-03T21:08:32.549Z",
+      "caseNumber": "2585CV01668",
+      "city": "Worcester",
+      "source": "pre_foreclosure"
+    },
+    "2585cv01672": {
+      "processed_at": "2025-12-03T21:09:06.718Z",
+      "caseNumber": "2585CV01672",
+      "city": "Worcester",
+      "source": "pre_foreclosure"
     }
   }
 }

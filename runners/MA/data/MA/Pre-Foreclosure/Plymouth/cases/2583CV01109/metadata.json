@@ -1,0 +1,50 @@
+{
+  "case_number": "2583CV01109",
+  "division": "Plymouth County",
+  "county": "Plymouth",
+  "scraped_at": "2025-12-03T21:04:18.958Z",
+  "state": "MA",
+  "case_type": "Real Property",
+  "case_info": {
+    "case_status": "Case Judge:",
+    "filing_date": "indigency established as to normal costs and fees, including service only."
+  },
+  "parties": {
+    "plaintiffs": [
+      "Walsh, Kenneth - Plaintiff",
+      "Walsh, James P - Plaintiff",
+      "On this date Pro Se added for Plaintiff Kenneth Walsh"
+    ],
+    "defendants": [
+      "Walsh, Dorothy - Defendant"
+    ]
+  },
+  "docket_entries": [
+    "File Date 11/28/2025",
+    "Status Date: 11/28/2025",
+    "Service\t11/28/2025\t02/26/2026\t90",
+    "Answer\t11/28/2025\t03/30/2026\t122",
+    "Rule 12/19/20 Served By\t11/28/2025\t03/30/2026\t122",
+    "Rule 12/19/20 Filed By\t11/28/2025\t04/27/2026\t150",
+    "Rule 12/19/20 Heard By\t11/28/2025\t05/27/2026\t180",
+    "Rule 15 Served By\t11/28/2025\t03/30/2026\t122",
+    "Rule 15 Filed By\t11/28/2025\t04/27/2026\t150",
+    "Rule 15 Heard By\t11/28/2025\t05/27/2026\t180",
+    "Discovery\t11/28/2025\t09/24/2026\t300",
+    "Rule 56 Served By\t11/28/2025\t10/26/2026\t332",
+    "Rule 56 Filed By\t11/28/2025\t11/23/2026\t360",
+    "Final Pre-Trial Conference\t11/28/2025\t03/23/2027\t480",
+    "Judgment\t11/28/2025\t11/29/2027\t731",
+    "11/28/2025\tAttorney appearance",
+    "11/28/2025\tCase assigned to:",
+    "DCM Track F - Fast Track was added on 11/28/2025",
+    "11/28/2025\tOriginal civil complaint filed.\t1",
+    "11/28/2025\tCivil action cover sheet filed.\t2"
+  ],
+  "page_content": {
+    "full_text": "Skip to main content\nLog on \nHome Search Results\n2583CV01109 Walsh, Kenneth et al vs. Walsh, Dorothy\nCase Type: Real Property\nCase Status: Open\nFile Date 11/28/2025\nDCM Track: F - Fast Track\n \nInitiating Action: Other Real Property Action\nStatus Date: 11/28/2025\nCase Judge: \nNext Event: \n \n \nAll Information\nParty\nTickler\nDocket\nDisposition\nParty Information\nWalsh, Kenneth - Plaintiff\nAlias\nParty Attorney\nAttorney Pro Se\nBar Code PROPER\nAddress\nPhone Number \nMore Party Information\nWalsh, James P - Plaintiff\nAlias\nParty Attorney\nMore Party Information\nWalsh, Dorothy - Defendant\nAlias\nParty Attorney\nMore Party Information\nTicklers\nTickler\tStart Date\tDue Date\tDays Due\tCompleted Date\nService\t11/28/2025\t02/26/2026\t90\t\nAnswer\t11/28/2025\t03/30/2026\t122\t\nRule 12/19/20 Served By\t11/28/2025\t03/30/2026\t122\t\nRule 12/19/20 Filed By\t11/28/2025\t04/27/2026\t150\t\nRule 12/19/20 Heard By\t11/28/2025\t05/27/2026\t180\t\nRule 15 Served By\t11/28/2025\t03/30/2026\t122\t\nRule 15 Filed By\t11/28/2025\t04/27/2026\t150\t\nRule 15 Heard By\t11/28/2025\t05/27/2026\t180\t\nDiscovery\t11/28/2025\t09/24/2026\t300\t\nRule 56 Served By\t11/28/2025\t10/26/2026\t332\t\nRule 56 Filed By\t11/28/2025\t11/23/2026\t360\t\nFinal Pre-Trial Conference\t11/28/2025\t03/23/2027\t480\t\nJudgment\t11/28/2025\t11/29/2027\t731\t\nDocket Information\nDocket Date\tDocket Text\tFile Ref Nbr.\tImage Avail.\n11/28/2025\tAttorney appearance\nOn this date Pro Se added for Plaintiff Kenneth Walsh\t\t\n11/28/2025\tCase assigned to:\nDCM Track F - Fast Track was added on 11/28/2025\t\t\n11/28/2025\tOriginal civil complaint filed.\t1\t\nImage\n\n11/28/2025\tCivil action cover sheet filed.\t2\t\nImage\n\n11/28/2025\tAffidavit of Indigency and request for waiver substitution of state payment of fees and costs filed with Supplemental affidavit\nindigency established as to normal costs and fees, including service only.\n\nJudge: Riordan, Kevin\t3\t\nCase Disposition\nDisposition\tDate\tCase Judge\nPending\t\t\nCourtView Justice Solutions Inc. an equivant company, Copyright 2025 v1.42.00\nWCAG Compliance",
+    "text_length": 1987,
+    "captured_at": "2025-12-03T21:04:18.969Z"
+  },
+  "complaint_pdf_path": "D:\\projetos\\Scraping\\runners\\MA\\data\\MA\\Pre-Foreclosure\\Plymouth\\cases\\2583CV01109\\2583CV01109_COMPLAINT.pdf"
+}

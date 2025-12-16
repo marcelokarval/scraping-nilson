@@ -1,0 +1,50 @@
+{
+  "case_number": "2584CV03337",
+  "division": "Suffolk County Civil",
+  "county": "Suffolk",
+  "scraped_at": "2025-12-03T21:06:43.399Z",
+  "state": "MA",
+  "case_type": "Real Property",
+  "case_info": {
+    "case_status": "Case Judge:",
+    "location": "12/18/2025 02:00 PM\tCivil C\tBOS-3rd FL, CR 313 (SC)\tMotion Hearing\tGreen, Hon. Julie E",
+    "filing_date": "Image"
+  },
+  "parties": {
+    "plaintiffs": [
+      "1 Milk MT LLC - Plaintiff",
+      "On this date Brian J Mahoney, Esq. added for Plaintiff 1 Milk MT LLC"
+    ],
+    "defendants": [
+      "NEDG- Boston LLC dba New England Dental Group - Defendant"
+    ]
+  },
+  "docket_entries": [
+    "File Date 12/01/2025",
+    "Status Date: 12/01/2025",
+    "Next Event: 12/18/2025",
+    "12/18/2025 02:00 PM\tCivil C\tBOS-3rd FL, CR 313 (SC)\tMotion Hearing\tGreen, Hon. Julie E",
+    "Service\t12/01/2025\t03/02/2026\t91",
+    "Answer\t12/01/2025\t03/31/2026\t120",
+    "Rule 12/19/20 Served By\t12/01/2025\t03/31/2026\t120",
+    "Rule 12/19/20 Filed By\t12/01/2025\t04/30/2026\t150",
+    "Rule 12/19/20 Heard By\t12/01/2025\t06/01/2026\t182",
+    "Rule 15 Served By\t12/01/2025\t03/31/2026\t120",
+    "Rule 15 Filed By\t12/01/2025\t04/30/2026\t150",
+    "Rule 15 Heard By\t12/01/2025\t06/01/2026\t182",
+    "Discovery\t12/01/2025\t09/28/2026\t301",
+    "Rule 56 Served By\t12/01/2025\t10/27/2026\t330",
+    "Rule 56 Filed By\t12/01/2025\t11/27/2026\t361",
+    "Final Pre-Trial Conference\t12/01/2025\t03/26/2027\t480",
+    "Judgment\t12/01/2025\t12/01/2027\t730",
+    "12/01/2025\tAttorney appearance",
+    "12/01/2025\tCase assigned to:",
+    "DCM Track F - Fast Track was added on 12/01/2025"
+  ],
+  "page_content": {
+    "full_text": "Skip to main content\nLog on \nHome Search Results\n2584CV03337 1 Milk MT LLC vs. NEDG- Boston LLC dba New England Dental Group\nCase Type: Real Property\nCase Status: Open\nFile Date 12/01/2025\nDCM Track: F - Fast Track\n \nInitiating Action: Summary Process - Commercial / Non-Residential\nStatus Date: 12/01/2025\nCase Judge: \nNext Event: 12/18/2025\n \n \nAll Information\nParty\nEvent\nTickler\nDocket\nDisposition\nParty Information\n1 Milk MT LLC - Plaintiff\nAlias\nParty Attorney\nAttorney Mahoney, Esq., Brian J\nBar Code 707442\nAddress \nFox Rothschild LLP\n33 Arch St\nSuite 3110\nBoston, MA  02110\nPhone Number (617)848-4027\nMore Party Information\nNEDG- Boston LLC dba New England Dental Group - Defendant\nAlias\nParty Attorney\nMore Party Information\nEvents\nDate\tSession\tLocation\tType\tEvent Judge\tResult\n12/18/2025 02:00 PM\tCivil C\tBOS-3rd FL, CR 313 (SC)\tMotion Hearing\tGreen, Hon. Julie E\t\nTicklers\nTickler\tStart Date\tDue Date\tDays Due\tCompleted Date\nService\t12/01/2025\t03/02/2026\t91\t\nAnswer\t12/01/2025\t03/31/2026\t120\t\nRule 12/19/20 Served By\t12/01/2025\t03/31/2026\t120\t\nRule 12/19/20 Filed By\t12/01/2025\t04/30/2026\t150\t\nRule 12/19/20 Heard By\t12/01/2025\t06/01/2026\t182\t\nRule 15 Served By\t12/01/2025\t03/31/2026\t120\t\nRule 15 Filed By\t12/01/2025\t04/30/2026\t150\t\nRule 15 Heard By\t12/01/2025\t06/01/2026\t182\t\nDiscovery\t12/01/2025\t09/28/2026\t301\t\nRule 56 Served By\t12/01/2025\t10/27/2026\t330\t\nRule 56 Filed By\t12/01/2025\t11/27/2026\t361\t\nFinal Pre-Trial Conference\t12/01/2025\t03/26/2027\t480\t\nJudgment\t12/01/2025\t12/01/2027\t730\t\nDocket Information\nDocket Date\tDocket Text\tFile Ref Nbr.\tImage Avail.\n12/01/2025\tAttorney appearance\nOn this date Brian J Mahoney, Esq. added for Plaintiff 1 Milk MT LLC\t\t\n12/01/2025\tCase assigned to:\nDCM Track F - Fast Track was added on 12/01/2025\t\t\n12/01/2025\tOriginal civil complaint filed.  (Summary Process)\t1\t\nImage\n\n12/01/2025\tCivil action cover sheet filed.\t2\t\nImage\n\n12/01/2025\t1 Milk MT LLC's MOTION for appointment of Special Process Server.\nand order of notice\t3\t\nImage\n\n12/03/2025\tSummons and order of notice issued on a Motion to To show cause why an eviction proceeding should not go forward/be allowed., returnable on 12/18/2025 02:00 PM Motion Hearing.\t\t\nCase Disposition\nDisposition\tDate\tCase Judge\nPending\t\t\nCourtView Justice Solutions Inc. an equivant company, Copyright 2025 v1.42.00\nWCAG Compliance",
+    "text_length": 2326,
+    "captured_at": "2025-12-03T21:06:43.408Z"
+  },
+  "complaint_pdf_path": "D:\\projetos\\Scraping\\runners\\MA\\data\\MA\\Pre-Foreclosure\\Suffolk\\cases\\2584CV03337\\2584CV03337_COMPLAINT.pdf"
+}

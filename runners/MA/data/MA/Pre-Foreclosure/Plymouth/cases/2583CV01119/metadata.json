@@ -1,0 +1,42 @@
+{
+  "case_number": "2583CV01119",
+  "division": "Plymouth County",
+  "county": "Plymouth",
+  "scraped_at": "2025-12-03T21:06:02.608Z",
+  "state": "MA",
+  "case_type": "Real Property",
+  "case_info": {
+    "case_status": "Case Judge:",
+    "filing_date": "Image"
+  },
+  "parties": {
+    "plaintiffs": [
+      "Planet Home Lending, LLC - Plaintiff",
+      "12/01/2025\tPlaintiff Planet Home Lending, LLC's Motion for"
+    ],
+    "defendants": [
+      "Gomes Vieira, Carolyn - Defendant",
+      "Prada-Putzig, Samantha R. - Defendant",
+      "United States of America Acting through the Secretary of Housing and Urban Development (\"HUD\") - Defendant",
+      "Plymouth County Teachers Federal Credit Union - Defendant",
+      "Sunnova TE Management LLC - Defendant"
+    ]
+  },
+  "docket_entries": [
+    "File Date 12/01/2025",
+    "Status Date: 12/01/2025",
+    "Service\t12/03/2025\t03/03/2026\t90",
+    "Judgment\t12/03/2025\t12/03/2026\t365",
+    "12/01/2025\tComplaint electronically filed.\t1",
+    "12/01/2025\tCivil action cover sheet filed.\t2",
+    "12/01/2025\tPlaintiff Planet Home Lending, LLC's Motion for",
+    "12/03/2025\tMortgagee's Affidavit The person signing below makes an oath and says that they are:",
+    "12/03/2025\tCase assigned to:",
+    "DCM Track X - Accelerated was added on 12/03/2025"
+  ],
+  "page_content": {
+    "full_text": "Skip to main content\nLog on \nHome Search Results\n2583CV01119 Planet Home Lending, LLC vs. Gomes Vieira, Carolyn et al\nCase Type: Real Property\nCase Status: Open\nFile Date 12/01/2025\nDCM Track: X - Accelerated\n \nInitiating Action: Foreclosure of a Mortgage\nStatus Date: 12/01/2025\nCase Judge: \nNext Event: \n \n \nAll Information\nParty\nTickler\nDocket\nDisposition\nParty Information\nPlanet Home Lending, LLC - Plaintiff\nAlias\nParty Attorney\nAttorney Beaton, Esq., Patrick D\nBar Code 661215\nAddress \nAlbertelli Law\n400 TradeCenter Suite 5900\nWoburn, MA  01801\nPhone Number (813)221-4743\nMore Party Information\nGomes Vieira, Carolyn - Defendant\nAlias\nParty Attorney\nMore Party Information\nPrada-Putzig, Samantha R. - Defendant\nAlias\nParty Attorney\nMore Party Information\nUnited States of America Acting through the Secretary of Housing and Urban Development (\"HUD\") - Defendant\nAlias\nParty Attorney\nMore Party Information\nPlymouth County Teachers Federal Credit Union - Defendant\nAlias\nParty Attorney\nMore Party Information\nSunnova TE Management LLC - Defendant\nAlias\nParty Attorney\nMore Party Information\nTicklers\nTickler\tStart Date\tDue Date\tDays Due\tCompleted Date\nService\t12/03/2025\t03/03/2026\t90\t\nJudgment\t12/03/2025\t12/03/2026\t365\t\nDocket Information\nDocket Date\tDocket Text\tFile Ref Nbr.\tImage Avail.\n12/01/2025\tComplaint electronically filed.\t1\t\nImage\n\n12/01/2025\tCivil action cover sheet filed.\t2\t\nImage\n\n12/01/2025\tPlaintiff Planet Home Lending, LLC's Motion for \nOrder of Notice\t3\t\nImage\n\n12/03/2025\tMortgagee's Affidavit The person signing below makes an oath and says that they are: \nActing on behalf of the persons or entities currently holding the subject mortgage and the note.\t4\t\nImage\n\n12/03/2025\tCase assigned to:\nDCM Track X - Accelerated was added on 12/03/2025\t\t\nCase Disposition\nDisposition\tDate\tCase Judge\nPending\t\t\nCourtView Justice Solutions Inc. an equivant company, Copyright 2025 v1.42.00\nWCAG Compliance",
+    "text_length": 1924,
+    "captured_at": "2025-12-03T21:06:02.617Z"
+  }
+}

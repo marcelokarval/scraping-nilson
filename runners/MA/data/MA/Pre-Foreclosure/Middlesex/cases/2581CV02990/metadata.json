@@ -1,0 +1,39 @@
+{
+  "case_number": "2581CV02990",
+  "division": "Middlesex County",
+  "county": "Middlesex",
+  "scraped_at": "2025-12-03T21:02:48.414Z",
+  "state": "MA",
+  "case_type": "Real Property",
+  "case_info": {
+    "case_status": "Case Judge:",
+    "filing_date": "Image"
+  },
+  "parties": {
+    "plaintiffs": [
+      "Pleasant Street Leasehold Condominium Association - Plaintiff",
+      "12/02/2025\tPlaintiff Pleasant Street Leasehold Condominium Association's Motion to"
+    ],
+    "defendants": [
+      "Altidor, Ednor - Defendant"
+    ]
+  },
+  "docket_entries": [
+    "File Date 12/02/2025",
+    "Status Date: 12/02/2025",
+    "Service\t12/02/2025\t03/02/2026\t90",
+    "Judgment\t12/02/2025\t12/02/2026\t365",
+    "12/02/2025\tComplaint electronically filed.\t1",
+    "12/02/2025\tCivil action cover sheet filed.\t2",
+    "12/02/2025\tPlaintiff Pleasant Street Leasehold Condominium Association's Motion to",
+    "12/02/2025\tEndorsement on Motion to Appoint Special Process Server (#3.0): ALLOWED",
+    "12/02/2025\tCase assigned to:",
+    "DCM Track X - Accelerated was added on 12/02/2025"
+  ],
+  "page_content": {
+    "full_text": "Skip to main content\nLog on \nHome Search Results\n2581CV02990 Pleasant Street Leasehold Condominium Association vs. Altidor, Ednor\nCase Type: Real Property\nCase Status: Open\nFile Date 12/02/2025\nDCM Track: X - Accelerated\n \nInitiating Action: Condominium Lien & Charges\nStatus Date: 12/02/2025\nCase Judge: \nNext Event: \n \n \nAll Information\nParty\nTickler\nDocket\nDisposition\nParty Information\nPleasant Street Leasehold Condominium Association - Plaintiff\nAlias\nParty Attorney\nAttorney Gamache, Esq., Heather\nBar Code 671898\nAddress \nMoriarty Bielan and Malloy LLC\n175 Federal St Suite 1210\nBoston, MA  02110\nPhone Number (617)934-4660\nMore Party Information\nAltidor, Ednor - Defendant\nAlias\nParty Attorney\nMore Party Information\nCambridge Savings Bank - Other interested party\nAlias\nParty Attorney\nMore Party Information\nMassachusetts Housing Partnership Fund Board - Other interested party\nAlias\nParty Attorney\nMore Party Information\nCity of Cambridge, Community Development Department - Other interested party\nAlias\nParty Attorney\nMore Party Information\nTicklers\nTickler\tStart Date\tDue Date\tDays Due\tCompleted Date\nService\t12/02/2025\t03/02/2026\t90\t\nJudgment\t12/02/2025\t12/02/2026\t365\t\nDocket Information\nDocket Date\tDocket Text\tFile Ref Nbr.\tImage Avail.\n12/02/2025\tComplaint electronically filed.\t1\t\nImage\n\n12/02/2025\tCivil action cover sheet filed.\t2\t\nImage\n\n12/02/2025\tPlaintiff Pleasant Street Leasehold Condominium Association's Motion to \nAppoint Special Process Server Constable Todd J. Reardon and Patriot Constable Service, LLC 12/2/25. ALLOWED (Ellis, J.)\t3\t\nImage\n\n12/02/2025\tEndorsement on Motion to Appoint Special Process Server (#3.0): ALLOWED\t\t\n12/02/2025\tCase assigned to:\nDCM Track X - Accelerated was added on 12/02/2025\t\t\nCase Disposition\nDisposition\tDate\tCase Judge\nPending\t\t\nCourtView Justice Solutions Inc. an equivant company, Copyright 2025 v1.42.00\nWCAG Compliance",
+    "text_length": 1889,
+    "captured_at": "2025-12-03T21:02:48.424Z"
+  },
+  "complaint_pdf_path": "D:\\projetos\\Scraping\\runners\\MA\\data\\MA\\Pre-Foreclosure\\Middlesex\\cases\\2581CV02990\\2581CV02990_COMPLAINT.pdf"
+}

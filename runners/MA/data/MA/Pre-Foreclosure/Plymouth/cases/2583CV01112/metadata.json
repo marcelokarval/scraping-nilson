@@ -1,0 +1,43 @@
+{
+  "case_number": "2583CV01112",
+  "division": "Plymouth County",
+  "county": "Plymouth",
+  "scraped_at": "2025-12-03T21:04:52.775Z",
+  "state": "MA",
+  "case_type": "Real Property",
+  "case_info": {
+    "case_status": "Case Judge:",
+    "filing_date": "Image",
+    "location": "12/02/2025\tEndorsement on Motion for for appointment of special process server under MRCP Rule 4(c)(Constable Jason Burke d/b/a AAA Constable Service) (#3.0): ALLOWED"
+  },
+  "parties": {
+    "plaintiffs": [
+      "Lakeview Loan Servicing, LLC - Plaintiff",
+      "12/01/2025\tPlaintiff Lakeview Loan Servicing, LLC's Motion for"
+    ],
+    "defendants": [
+      "Javier, Carlie - Defendant",
+      "Javier, Enrique - Defendant",
+      "The Secretary of Housing and Urban Development, their successors and assigns - Defendant"
+    ]
+  },
+  "docket_entries": [
+    "File Date 12/01/2025",
+    "Status Date: 12/01/2025",
+    "Service\t12/01/2025\t03/02/2026\t91",
+    "Judgment\t12/01/2025\t12/01/2026\t365",
+    "12/01/2025\tComplaint electronically filed.\t1",
+    "12/01/2025\tCivil action cover sheet filed.\t2",
+    "12/01/2025\tPlaintiff Lakeview Loan Servicing, LLC's Motion for",
+    "12/01/2025\tCase assigned to:",
+    "DCM Track X - Accelerated was added on 12/01/2025\t4",
+    "12/01/2025\tCase sent to Plymouth Superior - BROCKTON Location.",
+    "12/02/2025\tEndorsement on Motion for for appointment of special process server under MRCP Rule 4(c)(Constable Jason Burke d/b/a AAA Constable Service) (#3.0): ALLOWED"
+  ],
+  "page_content": {
+    "full_text": "Skip to main content\nLog on \nHome Search Results\n2583CV01112 Lakeview Loan Servicing, LLC vs. Javier, Carlie et al\nCase Type: Real Property\nCase Status: Open\nFile Date 12/01/2025\nDCM Track: X - Accelerated\n \nInitiating Action: Foreclosure of a Mortgage\nStatus Date: 12/01/2025\nCase Judge: \nNext Event: \n \n \nAll Information\nParty\nTickler\nDocket\nDisposition\nParty Information\nLakeview Loan Servicing, LLC - Plaintiff\nAlias\nParty Attorney\nAttorney MacKeen, Esq., Jason David\nBar Code 696588\nAddress \nOrlans Law Group PLLC\n204 Second Ave\nSuite 320\nWaltham, MA  02451\nPhone Number (781)790-7800\nMore Party Information\nJavier, Carlie - Defendant\nAlias\nParty Attorney\nMore Party Information\nJavier, Enrique - Defendant\nAlias\nParty Attorney\nMore Party Information\nThe Secretary of Housing and Urban Development, their successors and assigns - Defendant\nAlias\nParty Attorney\nMore Party Information\nTicklers\nTickler\tStart Date\tDue Date\tDays Due\tCompleted Date\nService\t12/01/2025\t03/02/2026\t91\t\nJudgment\t12/01/2025\t12/01/2026\t365\t\nDocket Information\nDocket Date\tDocket Text\tFile Ref Nbr.\tImage Avail.\n12/01/2025\tComplaint electronically filed.\t1\t\nImage\n\n12/01/2025\tCivil action cover sheet filed.\t2\t\nImage\n\n12/01/2025\tPlaintiff Lakeview Loan Servicing, LLC's Motion for \nAppointment of Special Process Server Under MRCP Rule 4(c)\t3\t\nImage\n\n12/01/2025\tCase assigned to:\nDCM Track X - Accelerated was added on 12/01/2025\t4\t\n12/01/2025\tCase sent to Plymouth Superior - BROCKTON Location.\t\t\n12/02/2025\tEndorsement on Motion for for appointment of special process server under MRCP Rule 4(c)(Constable Jason Burke d/b/a AAA Constable Service) (#3.0): ALLOWED\ncopy sent Dec 2,2025\n\nJudge: Donatelle, Hon. Sharon\t\t\nImage\nCase Disposition\nDisposition\tDate\tCase Judge\nPending\t\t\nCourtView Justice Solutions Inc. an equivant company, Copyright 2025 v1.42.00\nWCAG Compliance",
+    "text_length": 1851,
+    "captured_at": "2025-12-03T21:04:52.785Z"
+  },
+  "complaint_pdf_path": "D:\\projetos\\Scraping\\runners\\MA\\data\\MA\\Pre-Foreclosure\\Plymouth\\cases\\2583CV01112\\2583CV01112_COMPLAINT.pdf"
+}

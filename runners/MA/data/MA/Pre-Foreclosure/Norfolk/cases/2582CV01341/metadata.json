@@ -1,0 +1,46 @@
+{
+  "case_number": "2582CV01341",
+  "division": "Norfolk County",
+  "county": "Norfolk",
+  "scraped_at": "2025-12-03T21:03:36.728Z",
+  "state": "MA",
+  "case_type": "Real Property",
+  "case_info": {
+    "case_status": "Case Judge:",
+    "filing_date": "Image"
+  },
+  "parties": {
+    "plaintiffs": [
+      "Citizens Bank, NA F/K/A RBS Citizens NA - Plaintiff",
+      "12/02/2025\tPlaintiff Citizens Bank, NA F/K/A RBS Citizens NA's Motion for"
+    ],
+    "defendants": [
+      "Rodriguez, Ramon O. - Defendant",
+      "Rodriguez, Javier - Defendant",
+      "United States of America Acting through the Secretary of Housing and Urban Development (\"HUD\") - Defendant",
+      "Lowell Community Loan Fund, Inc. D/B/A Mill Cities Community Investments, a Non-Profit Corporation - Defendant",
+      "Massachusetts Housing Finance Agency - Defendant"
+    ]
+  },
+  "docket_entries": [
+    "File Date 12/01/2025",
+    "Status Date: 12/01/2025",
+    "Service\t12/02/2025\t03/02/2026\t90",
+    "Judgment\t12/02/2025\t12/02/2026\t365",
+    "12/02/2025\tCase assigned to:",
+    "DCM Track X - Accelerated was added on 12/02/2025",
+    "12/02/2025\tComplaint electronically filed.",
+    "(eFiled 12/01/2025)\t1",
+    "12/02/2025\tCivil action cover sheet filed.",
+    "(eFiled 12/01/2025)\t2",
+    "12/02/2025\tPlaintiff Citizens Bank, NA F/K/A RBS Citizens NA's Motion for",
+    "(eFiled 12/01/2025)\t3",
+    "12/02/2025\tMortgagee's Affidavit (eFiled 12/01/2025)\t4"
+  ],
+  "page_content": {
+    "full_text": "Skip to main content\nLog on \nHome Search Results\n2582CV01341 Citizens Bank, NA F/K/A RBS Citizens NA vs. Ramon O. Rodriguez Also Known As Ramon O. Rodriquez et al\nCase Type: Real Property\nCase Status: Open\nFile Date 12/01/2025\nDCM Track: X - Accelerated\n \nInitiating Action: Foreclosure of a Mortgage\nStatus Date: 12/01/2025\nCase Judge: \nNext Event: \n \n \nAll Information\nParty\nTickler\nDocket\nDisposition\nParty Information\nCitizens Bank, NA F/K/A RBS Citizens NA - Plaintiff\nAlias\nParty Attorney\nAttorney Beaton, Esq., Patrick D\nBar Code 661215\nAddress \nAlbertelli Law\n400 TradeCenter Suite 5900\nWoburn, MA  01801\nPhone Number (813)221-4743\nMore Party Information\nRodriguez, Ramon O. - Defendant\nAlias\nParty Attorney\nMore Party Information\nRodriguez, Javier - Defendant\nAlias\nParty Attorney\nMore Party Information\nUnited States of America Acting through the Secretary of Housing and Urban Development (\"HUD\") - Defendant\nAlias\nParty Attorney\nMore Party Information\nLowell Community Loan Fund, Inc. D/B/A Mill Cities Community Investments, a Non-Profit Corporation - Defendant\nAlias\nParty Attorney\nMore Party Information\nMassachusetts Housing Finance Agency - Defendant\nAlias\nParty Attorney\nMore Party Information\nTicklers\nTickler\tStart Date\tDue Date\tDays Due\tCompleted Date\nService\t12/02/2025\t03/02/2026\t90\t\nJudgment\t12/02/2025\t12/02/2026\t365\t\nDocket Information\nDocket Date\tDocket Text\tFile Ref Nbr.\tImage Avail.\n12/02/2025\tCase assigned to:\nDCM Track X - Accelerated was added on 12/02/2025\t\t\n12/02/2025\tComplaint electronically filed.\n(eFiled 12/01/2025)\t1\t\nImage\n\n12/02/2025\tCivil action cover sheet filed.\n\n(eFiled 12/01/2025)\t2\t\nImage\n\n12/02/2025\tPlaintiff Citizens Bank, NA F/K/A RBS Citizens NA's Motion for \nOrder of Notice\n(eFiled 12/01/2025)\t3\t\nImage\n\n12/02/2025\tMortgagee's Affidavit (eFiled 12/01/2025)\t4\t\nImage\nCase Disposition\nDisposition\tDate\tCase Judge\nPending\t\t\nCourtView Justice Solutions Inc. an equivant company, Copyright 2025 v1.42.00\nWCAG Compliance",
+    "text_length": 1972,
+    "captured_at": "2025-12-03T21:03:36.739Z"
+  },
+  "complaint_pdf_path": "D:\\projetos\\Scraping\\runners\\MA\\data\\MA\\Pre-Foreclosure\\Norfolk\\cases\\2582CV01341\\2582CV01341_COMPLAINT.pdf"
+}

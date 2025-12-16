@@ -1,0 +1,34 @@
+{
+  "case_number": "2585CV01672",
+  "division": "Worcester County",
+  "county": "Worcester",
+  "scraped_at": "2025-12-03T21:08:35.048Z",
+  "state": "MA",
+  "case_type": "Real Property",
+  "case_info": {
+    "case_status": "Case Judge:",
+    "filing_date": "Image"
+  },
+  "parties": {
+    "plaintiffs": [
+      "Lakeview Loan Servicing LLC - Plaintiff"
+    ],
+    "defendants": [
+      "Aquino, Jose - Defendant",
+      "Secretary of Housing and Urban Development, their successors and assigns - Defendant"
+    ]
+  },
+  "docket_entries": [
+    "File Date 12/01/2025",
+    "Status Date: 12/01/2025",
+    "12/01/2025\tComplaint electronically filed.\t1",
+    "12/01/2025\tCivil action cover sheet filed.\t2",
+    "12/01/2025\t's \t3"
+  ],
+  "page_content": {
+    "full_text": "Skip to main content\nLog on \nHome Search Results\n2585CV01672 Lakeview Loan Servicing LLC vs. Aquino, Jose et al\nCase Type: Real Property\nCase Status: Open\nFile Date 12/01/2025\nDCM Track: \n \nInitiating Action: Foreclosure of a Mortgage\nStatus Date: 12/01/2025\nCase Judge: \nNext Event: \n \n \nAll Information\nParty\nDocket\nDisposition\nParty Information\nLakeview Loan Servicing LLC - Plaintiff\nAlias\nParty Attorney\nAttorney Rankin, Esq., Jonathan Stone\nBar Code 661656\nAddress \nOrlans Law Group PLLC\n204 2nd Ave Suite 320\nWaltham, MA  02451\nPhone Number (781)790-7879\nMore Party Information\nAquino, Jose - Defendant\nAlias\nParty Attorney\nMore Party Information\nSecretary of Housing and Urban Development, their successors and assigns - Defendant\nAlias\nParty Attorney\nMore Party Information\nDocket Information\nDocket Date\tDocket Text\tFile Ref Nbr.\tImage Avail.\n12/01/2025\tComplaint electronically filed.\t1\t\nImage\n\n12/01/2025\tCivil action cover sheet filed.\t2\t\nImage\n\n12/01/2025\t's \t3\t\nImage\nCase Disposition\nDisposition\tDate\tCase Judge\nPending\t\t\nCourtView Justice Solutions Inc. an equivant company, Copyright 2025 v1.42.00\nWCAG Compliance",
+    "text_length": 1131,
+    "captured_at": "2025-12-03T21:08:35.057Z"
+  },
+  "complaint_pdf_path": "D:\\projetos\\Scraping\\runners\\MA\\data\\MA\\Pre-Foreclosure\\Worcester\\cases\\2585CV01672\\2585CV01672_COMPLAINT.pdf"
+}

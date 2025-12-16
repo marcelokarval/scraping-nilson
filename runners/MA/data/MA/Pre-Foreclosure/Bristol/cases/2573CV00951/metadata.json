@@ -1,0 +1,40 @@
+{
+  "case_number": "2573CV00951",
+  "division": "Bristol County",
+  "county": "Bristol",
+  "scraped_at": "2025-12-03T21:00:55.619Z",
+  "state": "MA",
+  "case_type": "Real Property",
+  "case_info": {
+    "case_status": "Case Judge:",
+    "filing_date": "Image"
+  },
+  "parties": {
+    "plaintiffs": [
+      "Lakeview Loan Servicing, LLC - Plaintiff",
+      "12/01/2025\tPlaintiff Lakeview Loan Servicing, LLC's Motion for"
+    ],
+    "defendants": [
+      "Cummings, Noadia - Defendant",
+      "Cummings, Joshua - Defendant",
+      "The Secretary of Housing and Urban Development, their successors and assigns - Defendant"
+    ]
+  },
+  "docket_entries": [
+    "File Date 12/01/2025",
+    "Status Date: 12/01/2025",
+    "Service\t12/01/2025\t03/02/2026\t91",
+    "Judgment\t12/01/2025\t12/01/2026\t365",
+    "12/01/2025\tComplaint electronically filed.\t1",
+    "12/01/2025\tCivil action cover sheet filed.\t2",
+    "12/01/2025\tPlaintiff Lakeview Loan Servicing, LLC's Motion for",
+    "12/01/2025\tCase assigned to:",
+    "DCM Track X - Accelerated was added on 12/01/2025"
+  ],
+  "page_content": {
+    "full_text": "Skip to main content\nLog on \nHome Search Results\n2573CV00951 Lakeview Loan Servicing, LLC vs. Cummings, Noadia et al\nCase Type: Real Property\nCase Status: Open\nFile Date 12/01/2025\nDCM Track: X - Accelerated\n \nInitiating Action: Foreclosure of a Mortgage\nStatus Date: 12/01/2025\nCase Judge: \nNext Event: \n \n \nAll Information\nParty\nTickler\nDocket\nDisposition\nParty Information\nLakeview Loan Servicing, LLC - Plaintiff\nAlias\nParty Attorney\nAttorney MacKeen, Esq., Jason David\nBar Code 696588\nAddress \nOrlans Law Group PLLC\n204 Second Ave\nSuite 320\nWaltham, MA  02451\nPhone Number (781)790-7800\nMore Party Information\nCummings, Noadia - Defendant\nAlias\nParty Attorney\nMore Party Information\nCummings, Joshua - Defendant\nAlias\nParty Attorney\nMore Party Information\nThe Secretary of Housing and Urban Development, their successors and assigns - Defendant\nAlias\nParty Attorney\nMore Party Information\nTicklers\nTickler\tStart Date\tDue Date\tDays Due\tCompleted Date\nService\t12/01/2025\t03/02/2026\t91\t\nJudgment\t12/01/2025\t12/01/2026\t365\t\nDocket Information\nDocket Date\tDocket Text\tFile Ref Nbr.\tImage Avail.\n12/01/2025\tComplaint electronically filed.\t1\t\nImage\n\n12/01/2025\tCivil action cover sheet filed.\t2\t\nImage\n\n12/01/2025\tPlaintiff Lakeview Loan Servicing, LLC's Motion for \nAppointment of Special Process Server (Constable Jason Burke)\t3\t\nImage\n\n12/01/2025\tCase assigned to:\nDCM Track X - Accelerated was added on 12/01/2025\t\t\nImage\nCase Disposition\nDisposition\tDate\tCase Judge\nPending\t\t\nCourtView Justice Solutions Inc. an equivant company, Copyright 2025 v1.42.00\nWCAG Compliance",
+    "text_length": 1572,
+    "captured_at": "2025-12-03T21:00:55.629Z"
+  },
+  "complaint_pdf_path": "D:\\projetos\\Scraping\\runners\\MA\\data\\MA\\Pre-Foreclosure\\Bristol\\cases\\2573CV00951\\2573CV00951_COMPLAINT.pdf"
+}

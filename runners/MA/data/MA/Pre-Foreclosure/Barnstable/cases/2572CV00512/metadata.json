@@ -1,0 +1,38 @@
+{
+  "case_number": "2572CV00512",
+  "division": "Barnstable County",
+  "county": "Barnstable",
+  "scraped_at": "2025-12-03T20:59:33.397Z",
+  "state": "MA",
+  "case_type": "Real Property",
+  "case_info": {
+    "case_status": "Case Judge:",
+    "filing_date": "Image"
+  },
+  "parties": {
+    "plaintiffs": [
+      "Seashore Point - Deaconess Condominium Trust - Plaintiff",
+      "11/28/2025\tPlaintiff Seashore Point - Deaconess Condominium Trust's Motion for"
+    ],
+    "defendants": [
+      "Provincetown Collector of Taxes - Defendant",
+      "Provincetown Parking Garage, LLC - Defendant"
+    ]
+  },
+  "docket_entries": [
+    "File Date 11/28/2025",
+    "Status Date: 11/28/2025",
+    "Service\t12/01/2025\t03/02/2026\t91",
+    "Judgment\t12/01/2025\t12/01/2026\t365",
+    "11/28/2025\tComplaint electronically filed.\t1",
+    "11/28/2025\tCivil action cover sheet filed.\t2",
+    "11/28/2025\tPlaintiff Seashore Point - Deaconess Condominium Trust's Motion for",
+    "12/01/2025\tEndorsement on Motion for special process server (#3.0): ALLOWED"
+  ],
+  "page_content": {
+    "full_text": "Skip to main content\nLog on \nHome Search Results\n2572CV00512 Seashore Point - Deaconess Condominium Trust vs. Provincetown Collector of Taxes et al\nCase Type: Real Property\nCase Status: Open\nFile Date 11/28/2025\nDCM Track: X - Accelerated\n \nInitiating Action: Condominium Lien & Charges\nStatus Date: 11/28/2025\nCase Judge: \nNext Event: \n \n \nAll Information\nParty\nTickler\nDocket\nDisposition\nParty Information\nSeashore Point - Deaconess Condominium Trust - Plaintiff\nAlias\nParty Attorney\nAttorney Moriarty, Esq., Thomas O\nBar Code 561806\nAddress \nMoriarty Bielan and Malloy LLC\n859 Willard St\nSuite 440\nQuincy, MA  02169\nPhone Number (781)817-4900\nAttorney Tanzer, Esq., Troy E\nBar Code 709756\nAddress \nMoriarty Bielan and Malloy LLC\n859 WILLARD STREET\nSUITE 440\nQUINCY, MA  02169\nPhone Number (781)817-4900\nMore Party Information\nProvincetown Collector of Taxes - Defendant\nAlias\nParty Attorney\nMore Party Information\nProvincetown Parking Garage, LLC - Defendant\nAlias\nParty Attorney\nMore Party Information\nTicklers\nTickler\tStart Date\tDue Date\tDays Due\tCompleted Date\nService\t12/01/2025\t03/02/2026\t91\t\nJudgment\t12/01/2025\t12/01/2026\t365\t\nDocket Information\nDocket Date\tDocket Text\tFile Ref Nbr.\tImage Avail.\n11/28/2025\tComplaint electronically filed.\t1\t\nImage\n\n11/28/2025\tCivil action cover sheet filed.\t2\t\nImage\n\n11/28/2025\tPlaintiff Seashore Point - Deaconess Condominium Trust's Motion for \nspecial process server\t3\t\nImage\n\n12/01/2025\tEndorsement on Motion for special process server (#3.0): ALLOWED\t\t\nImage\nCase Disposition\nDisposition\tDate\tCase Judge\nPending\t\t\nCourtView Justice Solutions Inc. an equivant company, Copyright 2025 v1.42.00\nWCAG Compliance",
+    "text_length": 1658,
+    "captured_at": "2025-12-03T20:59:33.407Z"
+  },
+  "complaint_pdf_path": "D:\\projetos\\Scraping\\runners\\MA\\data\\MA\\Pre-Foreclosure\\Barnstable\\cases\\2572CV00512\\2572CV00512_COMPLAINT.pdf"
+}

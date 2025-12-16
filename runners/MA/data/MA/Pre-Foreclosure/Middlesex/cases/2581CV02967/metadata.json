@@ -1,0 +1,36 @@
+{
+  "case_number": "2581CV02967",
+  "division": "Middlesex County",
+  "county": "Middlesex",
+  "scraped_at": "2025-12-03T21:02:14.769Z",
+  "state": "MA",
+  "case_type": "Real Property",
+  "case_info": {
+    "case_status": "Case Judge:",
+    "filing_date": "Image"
+  },
+  "parties": {
+    "plaintiffs": [
+      "Millstone Concord Condominium - Plaintiff"
+    ],
+    "defendants": [
+      "Shakolinina, Julia S - Defendant"
+    ]
+  },
+  "docket_entries": [
+    "File Date 12/01/2025",
+    "Status Date: 12/01/2025",
+    "Service\t12/01/2025\t03/02/2026\t91",
+    "Judgment\t12/01/2025\t12/01/2026\t365",
+    "12/01/2025\tComplaint electronically filed.\t1",
+    "12/01/2025\tCivil action cover sheet filed.\t2",
+    "12/01/2025\tCase assigned to:",
+    "DCM Track X - Accelerated was added on 12/01/2025"
+  ],
+  "page_content": {
+    "full_text": "Skip to main content\nLog on \nHome Search Results\n2581CV02967 Millstone Concord Condominium vs. Shakolinina, Julia S\nCase Type: Real Property\nCase Status: Open\nFile Date 12/01/2025\nDCM Track: X - Accelerated\n \nInitiating Action: Condominium Lien & Charges\nStatus Date: 12/01/2025\nCase Judge: \nNext Event: \n \n \nAll Information\nParty\nTickler\nDocket\nDisposition\nParty Information\nMillstone Concord Condominium - Plaintiff\nAlias\nParty Attorney\nAttorney Desrochers, Esq., Gina Marie\nBar Code 681910\nAddress \nPerkins and Anctil P.C.\n6 Lyberty Way\nSuite 201\nWestford, MA  01886\nPhone Number (978)496-2015\nMore Party Information\nShakolinina, Julia S - Defendant\nAlias\nParty Attorney\nMore Party Information\nMiddlesex Savings Bank - Other interested party\nAlias\nParty Attorney\nMore Party Information\nMassachusetts Housing Partnership Fund - Other interested party\nAlias\nParty Attorney\nMore Party Information\nTown of Concord - Other interested party\nAlias\nParty Attorney\nMore Party Information\nTicklers\nTickler\tStart Date\tDue Date\tDays Due\tCompleted Date\nService\t12/01/2025\t03/02/2026\t91\t\nJudgment\t12/01/2025\t12/01/2026\t365\t\nDocket Information\nDocket Date\tDocket Text\tFile Ref Nbr.\tImage Avail.\n12/01/2025\tComplaint electronically filed.\t1\t\nImage\n\n12/01/2025\tCivil action cover sheet filed.\t2\t\nImage\n\n12/01/2025\tCase assigned to:\nDCM Track X - Accelerated was added on 12/01/2025\t\t\nImage\nCase Disposition\nDisposition\tDate\tCase Judge\nPending\t\t\nCourtView Justice Solutions Inc. an equivant company, Copyright 2025 v1.42.00\nWCAG Compliance",
+    "text_length": 1524,
+    "captured_at": "2025-12-03T21:02:14.779Z"
+  },
+  "complaint_pdf_path": "D:\\projetos\\Scraping\\runners\\MA\\data\\MA\\Pre-Foreclosure\\Middlesex\\cases\\2581CV02967\\2581CV02967_COMPLAINT.pdf"
+}

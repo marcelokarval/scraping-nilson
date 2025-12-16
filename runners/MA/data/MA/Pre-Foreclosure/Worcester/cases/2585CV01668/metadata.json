@@ -1,0 +1,40 @@
+{
+  "case_number": "2585CV01668",
+  "division": "Worcester County",
+  "county": "Worcester",
+  "scraped_at": "2025-12-03T21:08:01.297Z",
+  "state": "MA",
+  "case_type": "Real Property",
+  "case_info": {
+    "case_status": "Case Judge:",
+    "filing_date": "Image"
+  },
+  "parties": {
+    "plaintiffs": [
+      "Fidelity Cooperative Bank - Plaintiff",
+      "On this date Samantha Jane Court, Esq. added for Plaintiff Fidelity Cooperative Bank"
+    ],
+    "defendants": [
+      "Richard, Cara A. - Defendant"
+    ]
+  },
+  "docket_entries": [
+    "File Date 12/01/2025",
+    "Status Date: 12/01/2025",
+    "Service\t12/01/2025\t03/02/2026\t91",
+    "Judgment\t12/01/2025\t12/01/2026\t365",
+    "12/01/2025\tAttorney appearance",
+    "12/01/2025\tCase assigned to:",
+    "DCM Track X - Accelerated was added on 12/01/2025",
+    "12/01/2025\tComplaint to Foreclose Mortgage\t1",
+    "12/01/2025\tCivil action cover sheet filed.\t2",
+    "12/01/2025\tMortgagee's Affidavit notice has been given in compliance with G.L. c. 244, sec 35A, as amended\t3",
+    "12/01/2025\tNotice to publish foreclosure in The Gardner News and/or Worcester Telegram & Gazette rec notice in Worcester Registry of Deeds and by regular mail, return at Worcester 1/12/2026"
+  ],
+  "page_content": {
+    "full_text": "Skip to main content\nLog on \nHome Search Results\n2585CV01668 Fidelity Cooperative Bank vs. Richard, Cara A.\nCase Type: Real Property\nCase Status: Open\nFile Date 12/01/2025\nDCM Track: X - Accelerated\n \nInitiating Action: Foreclosure of a Mortgage\nStatus Date: 12/01/2025\nCase Judge: \nNext Event: \n \n \nAll Information\nParty\nTickler\nDocket\nDisposition\nParty Information\nFidelity Cooperative Bank - Plaintiff\nAlias\nParty Attorney\nAttorney Court, Esq., Samantha Jane\nBar Code 675318\nAddress \nGelinas and Ward , LLP\n106 Merriam Ave\nLeominster, MA  01453\nPhone Number (978)537-2200\nMore Party Information\nRichard, Cara A. - Defendant\nAlias\nParty Attorney\nMore Party Information\nTicklers\nTickler\tStart Date\tDue Date\tDays Due\tCompleted Date\nService\t12/01/2025\t03/02/2026\t91\t\nJudgment\t12/01/2025\t12/01/2026\t365\t\nDocket Information\nDocket Date\tDocket Text\tFile Ref Nbr.\tImage Avail.\n12/01/2025\tAttorney appearance\nOn this date Samantha Jane Court, Esq. added for Plaintiff Fidelity Cooperative Bank\t\t\n12/01/2025\tCase assigned to:\nDCM Track X - Accelerated was added on 12/01/2025\t\t\n12/01/2025\tComplaint to Foreclose Mortgage\t1\t\nImage\n\n12/01/2025\tCivil action cover sheet filed.\t2\t\nImage\n\n12/01/2025\tMortgagee's Affidavit notice has been given in compliance with G.L. c. 244, sec 35A, as amended\t3\t\nImage\n\n12/01/2025\tNotice to publish foreclosure in The Gardner News and/or Worcester Telegram & Gazette rec notice in Worcester Registry of Deeds and by regular mail, return at Worcester 1/12/2026\t\t\nCase Disposition\nDisposition\tDate\tCase Judge\nPending\t\t\nCourtView Justice Solutions Inc. an equivant company, Copyright 2025 v1.42.00\nWCAG Compliance",
+    "text_length": 1634,
+    "captured_at": "2025-12-03T21:08:01.306Z"
+  },
+  "complaint_pdf_path": "D:\\projetos\\Scraping\\runners\\MA\\data\\MA\\Pre-Foreclosure\\Worcester\\cases\\2585CV01668\\2585CV01668_COMPLAINT.pdf"
+}
