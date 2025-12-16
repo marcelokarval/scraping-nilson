@@ -646,6 +646,7 @@ export class PreForeclosureRunner {
               Estado: 'MA',
               Cidade: city,
               'Case Number': caseData.case_number,
+              Source: 'masscourts.org',
               'PDF Original': pdfBase64,
               'PDF TXT': txtContent,
               Metadata: metadataObj
@@ -679,6 +680,7 @@ export class PreForeclosureRunner {
               Estado: 'MA',
               Cidade: city,
               'Case Number': caseData.case_number,
+              Source: 'masscourts.org',
               'PDF TXT': txtContent,
               Metadata: metadataObj
             };

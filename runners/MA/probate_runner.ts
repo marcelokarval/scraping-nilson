@@ -180,6 +180,7 @@ export class ProbateRunner {
               Estado: 'MA',
               Cidade: division,
               'Case Number': case_number,
+              Source: 'masscourts.org',
               'PDF TXT': txtContent,
               Metadata: metadataObj
             };
@@ -695,6 +696,7 @@ export class ProbateRunner {
               Estado: 'MA',
               Cidade: city,
               'Case Number': caseData.case_number,
+              Source: 'masscourts.org',
               'PDF Original': pdfBase64 || null,
               'PDF TXT': txtContent,
               Metadata: metadataObj
@@ -719,17 +721,16 @@ export class ProbateRunner {
           const txtContent = fs.existsSync(outTxt) ? fs.readFileSync(outTxt, 'utf8') : '';
           const metadataObj = fs.existsSync(path.join(caseDirCheck, 'metadata.json')) ? JSON.parse(fs.readFileSync(path.join(caseDirCheck, 'metadata.json'),'utf8')) : caseData;
           
-          const payload = {
-            Categoria: this.webhookCategory,
-            Status: 'Update Case',
-            Estado: 'MA',
-            Cidade: city,
-            'Case Number': caseData.case_number,
-            'PDF TXT': txtContent,
-            Metadata: metadataObj
-          };
-          
-          try {
+              const payload = {
+                Categoria: this.webhookCategory,
+                Status: 'Update Case',
+                Estado: 'MA',
+                Cidade: city,
+                'Case Number': caseData.case_number,
+                Source: 'masscourts.org',
+                'PDF TXT': txtContent,
+                Metadata: metadataObj
+              };          try {
             const webhook = process.env.WEBHOOK_URL || 'https://n8n.arthuragrelli.com/webhook/scraping';
             const resp = await axios.post(webhook, payload, { timeout: 30000 });
             insertEvent(caseId, 'webhook_sent', JSON.stringify({ status: resp.status }));

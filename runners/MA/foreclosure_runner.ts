@@ -1153,6 +1153,7 @@ export class ForeclosureRunner {
       Estado: listing.property_state || 'MA',
       Cidade: city,
       'Case Number': address, // Usando endereço como identificador único
+      Source: 'landmarkauction.biz',
     };
     
     // Build metadata com dados básicos do foreclosure
